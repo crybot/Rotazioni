@@ -29,6 +29,7 @@ function InputGroup(props) {
 
           <Grid item xs>
             <TextField
+              size="small"
               name={props.name + '_rest_min'}
               value={props.value[props.name + '_rest_min']} label="Min
               Recupero" variant="outlined" onChange={props.onChange}/>
@@ -36,6 +37,7 @@ function InputGroup(props) {
 
           <Grid item xs>
             <TextField
+              size="small"
               name={props.name + '_rest_max'} 
               value={props.value[props.name + '_rest_max']} label="Max
               Recupero" variant="outlined" onChange={props.onChange}/>
@@ -43,6 +45,7 @@ function InputGroup(props) {
 
           <Grid item xs>
             <TextField
+              size="small"
               name={props.name + '_rotations'} 
               value={props.value[props.name + '_rotations']} label="Rotazioni"
               variant="outlined" onChange={props.onChange}/>

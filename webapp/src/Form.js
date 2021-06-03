@@ -154,7 +154,7 @@ function Form(props) {
       <InputGroup name="delts" value={state} label="SPALLE" onChange={handleChange}/>
       <Button
         onClick={handleSubmit} align="left" variant="outlined"
-        style={{color: "#c01f25", width: "20ch", height: "6ch"}}>
+        style={{color: "#c01f25", width: "15%", height: "6ch"}}>
         <strong>GENERA</strong> </Button>
       <SplitTable days={state.days} split={split}/>
 
