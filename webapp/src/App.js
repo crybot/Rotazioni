@@ -5,13 +5,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import {Typography, TextField, Checkbox} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
+      width: '15ch',
     },
   },
 }));
@@ -28,6 +28,7 @@ function App() {
       <td> </td>
     </tr>
   );
+
   return (
     <div className="App">
       <header className="App-header">
@@ -36,10 +37,10 @@ function App() {
       </header>
       <body>
         <form className={classes.root} noValidate autoComplete="off">
-          <TextField label="Giorni Microciclo" />
-          <TextField label="Giorni di Riposo" />
-          <TextField label="Max Workout Consecutivi" />
-          <TextField label="Max Riposo Consecutivi" />
+          <TextField defaultValue="14" label="Giorni Microciclo" />
+          <TextField defaultValue="5" label="Giorni di Riposo" />
+          <TextField defaultValue="3" label="Max Workout Consecutivi" />
+          <TextField defaultValue="2" label="Max Riposo Consecutivi" />
         </form>
         <InputGroup name="PETTO"/>
         <InputGroup name="SCHIENA"/>
