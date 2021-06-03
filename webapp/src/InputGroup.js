@@ -1,6 +1,7 @@
 import React from 'react';
-import { Grid, TextField } from '@material-ui/core';
+import { Typography, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import '@fontsource/roboto';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,9 +17,10 @@ function InputGroup(props) {
   return (
     <div>
       <form className={classes.root} noValidate autoComplete="off">
-        <Grid style={{width: "80%"}} container spacing={3}>
+        <Grid alignItems="center" style={{width: "80%"}} container spacing={3}>
           <Grid item xs>
-            <label>{props.name}:</label>
+            <Typography component="h1" style={{marginLeft:"65%"}}
+              variant="overline" align="left"> {props.name}:</Typography>
           </Grid>
           <Grid item xs>
             <TextField defaultValue="3" label="Min Recupero" variant="outlined"/>
