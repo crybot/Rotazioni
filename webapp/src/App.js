@@ -4,6 +4,7 @@ import {Typography, TextField, Checkbox} from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Form from './Form'
+import Copyright from './Copyright'
 
 const theme = createMuiTheme({
   typography: {
@@ -28,6 +29,9 @@ function App() {
         <body>
           <Form/>
         </body>
+        <footer>
+          <Copyright/>
+        </footer>
       </div>
     </ThemeProvider>
   );
