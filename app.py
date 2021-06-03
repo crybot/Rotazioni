@@ -1,9 +1,11 @@
 from flask import Flask, request
 from solver import MuscleGroup, SplitScheduler
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 
 @app.route('/solve', methods=['POST'])
+@cross_origin()
 def solve_api():
     args = request.form
     chest = MuscleGroup('CHEST', 
@@ -47,3 +49,4 @@ def solve_api():
             int(args['max_consecutive_rest']))
 
     return {'split': scheduler.solve()}
+
