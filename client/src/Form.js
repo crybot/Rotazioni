@@ -105,7 +105,7 @@ function Form(props) {
 
     setLoading(true)
 
-    fetch("http://127.0.0.1:5000/solve", requestOptions)
+    fetch("http://144.91.112.31:5000/solve", requestOptions)
       .then(response => response.json())
       .then(json => setSplit(json.split))
       .then(_ => setLoading(false))
