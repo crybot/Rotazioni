@@ -1,23 +1,10 @@
 import './App.css';
 import InputGroup from './InputGroup'
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import {Typography, TextField, Checkbox} from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '15ch',
-    },
-  },
-}));
+import Form from './Form'
 
 function App() {
-  const classes = useStyles();
   const numbers = [...Array(14).keys()]
   const rows = numbers.map((n) => 
     <tr> 
@@ -36,17 +23,7 @@ function App() {
         <h1 className="App-title2"> ROTAZIONI </h1>
       </header>
       <body>
-        <form className={classes.root} noValidate autoComplete="off">
-          <TextField defaultValue="14" label="Giorni Microciclo" />
-          <TextField defaultValue="5" label="Giorni di Riposo" />
-          <TextField defaultValue="3" label="Max Workout Consecutivi" />
-          <TextField defaultValue="2" label="Max Riposo Consecutivi" />
-        </form>
-        <InputGroup name="PETTO"/>
-        <InputGroup name="SCHIENA"/>
-        <InputGroup name="GAMBE"/>
-        <InputGroup name="BRACCIA"/>
-        <InputGroup name="SPALLE"/>
+        <Form/>
         <table align="center">
           <tr> 
             <th> GIORNO </th>
