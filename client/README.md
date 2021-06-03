@@ -73,9 +73,6 @@ Create a local copy of this repository and run
 
     docker-compose build
     
-This spins up Compose and builds a local development environment according to 
-our specifications in [docker-compose.yml](docker-compose.yml). Keep in mind that 
-this file contains settings for *development*, and not *production*.
 
 After the containers have been built (this may take a few minutes), run
 
