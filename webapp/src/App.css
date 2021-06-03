@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  width: 20%;
+}
+
+table {
+  width: 70%;
+  margin-top: 5vh;
+  margin-bottom: 30vh;
+}
+
+.App-title1 {
+  color: #c01f25;
+  margin-top: 0;
+  text-align: right;
+  padding-right: 3vw;
+}
+
+.App-title2 {
+  color: #c01f25;
+}
+
+.App-header {
+  background-color: #bcbec4;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
