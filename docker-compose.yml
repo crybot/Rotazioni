@@ -1,25 +1,29 @@
-# Warning: This Compose file is incomplete. This file does NOT prepare the project for deployment.
-
 version: '3'
 
 services:
   api:
     build: api
-    command: "flask run --host=0.0.0.0"
+    command: ["flask", "run", "--host=0.0.0.0"]
+    volumes:
+      - ./api:/backend
     environment:
-    - FLASK_ENV=production
-    - FLASK_APP=app.py
+      - FLASK_ENV=production
+      - FLASK_APP=app.py
     ports:
-    - "9405:9405"
-    restart: always
+      - "5000:5000"
 
   client:
     build: client
-    command: "npm run build &&"
+    command: ["npm", "start"]
+    volumes:
+      - ./client:/frontend
+      - node-modules:/frontend/node_modules
     environment:
-    - NODE_ENV=production
+      - NODE_ENV=production
     ports:
-    - '7860:7860'
+      - '3000:3000'
     depends_on:
-    - api
-    restart: always
+      - api
+
+volumes:
+  node-modules:
