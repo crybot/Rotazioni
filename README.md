@@ -13,4 +13,4 @@ To install Javascript dependencies just enter `cd  webapp` and run `npm install`
 
 ## Deployment
 To run the Flask server, simply run `flask run` inside your virtual environment inside the project's root directory.\
-Then, to launch the webapp locally, launch `npm run`.
+Then, to launch the webapp locally, launch `npm start`.
