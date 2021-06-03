@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import InputGroup from './InputGroup'
-import { Typography, TextField} from '@material-ui/core';
+import { Button, Typography, TextField} from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,12 +33,41 @@ const defaultState = {
   arms_rotations: 3,
   delts_rest_min: 3,
   delts_rest_max: 10,
-  delts_rotations: 3
+  delts_rotations: 3,
+}
+
+function SplitTable(props) {
+  const numbers = Array.from({length:props.days},(v,k)=>k+1)
+  const split = props.split
+  const rows = numbers.map((n) => 
+    <tr key={n.toString()}> 
+      <td align="left"> {n} </td>
+      <td> {split && n <= split.length ? split[n-1].join(' & ') : ''} </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  );
+
+  return (
+    <table align="center">
+      <tr> 
+        <th> GIORNO </th>
+        <th> ROTAZIONE I </th>
+        <th> ROTAZIONE II </th>
+        <th> ROTAZIONE III </th>
+        <th> RICHIAMO </th>
+      </tr>
+      {rows}
+    </table>
+  );
+
 }
 
 function Form(props) {
   const classes = useStyles();
   const [state, setState] = useState(defaultState)
+  const [split, setSplit] = useState(null)
 
   const handleChange = (event) => {
     setState({
@@ -48,6 +77,32 @@ function Form(props) {
       [event.target.name] : event.target.value
     })
   }
+
+  const handleSubmit = async (event) => {
+    var form_data = new FormData();
+
+    for ( var key in state ) {
+      form_data.append(key, state[key]);
+    }
+    // TODO: add after_rest checkboxes
+    form_data.append('chest_after_rest', false)
+    form_data.append('back_after_rest', false)
+    form_data.append('legs_after_rest', false)
+    form_data.append('arms_after_rest', false)
+    form_data.append('delts_after_rest', false)
+
+    var requestOptions = {
+      method: 'POST',
+      body: form_data,
+      redirect: 'follow'
+    };
+
+    fetch("http://127.0.0.1:5000/solve", requestOptions)
+      .then(response => response.json())
+      .then(json => setSplit(json.split))
+      .catch(error => console.log('error', error));
+  }
+
 
   return (
     <div>
@@ -66,6 +121,12 @@ function Form(props) {
       <InputGroup name="legs" value={state} label="GAMBE" onChange={handleChange}/>
       <InputGroup name="arms" value={state} label="BRACCIA" onChange={handleChange}/>
       <InputGroup name="delts" value={state} label="SPALLE" onChange={handleChange}/>
+      <Button
+        onClick={handleSubmit} align="left" variant="outlined"
+        style={{color: "#c01f25", width: "20ch", height: "6ch"}}>
+        <strong>GENERA</strong> </Button>
+      <SplitTable days={state.days} split={split}/>
+
     </div>
   );
 }
