@@ -22,18 +22,23 @@ const defaultState = {
   chest_rest_min: 3,
   chest_rest_max: 10,
   chest_rotations: 3,
+  chest_after_rest: false,
   back_rest_min: 3,
   back_rest_max: 10,
   back_rotations: 3,
+  back_after_rest: false,
   legs_rest_min: 4,
   legs_rest_max: 10,
+  legs_after_rest: true,
   legs_rotations: 2,
   arms_rest_min: 3,
   arms_rest_max: 10,
   arms_rotations: 3,
+  arms_after_rest: false,
   delts_rest_min: 3,
   delts_rest_max: 10,
   delts_rotations: 3,
+  delts_after_rest: false,
 }
 
 function SplitTable(props) {
@@ -105,7 +110,9 @@ function Form(props) {
       // Computed property names
       // keys of the objects are computed dynamically
       ...state,
-      [event.target.name] : event.target.value
+      [event.target.name] : (event.target.value 
+        ? event.target.value // `value` is not defined for Checkbox
+        : event.target.checked)
     })
   }
 
@@ -115,12 +122,6 @@ function Form(props) {
     for ( var key in state ) {
       form_data.append(key, state[key]);
     }
-    // TODO: add after_rest checkboxes
-    form_data.append('chest_after_rest', false)
-    form_data.append('back_after_rest', false)
-    form_data.append('legs_after_rest', false)
-    form_data.append('arms_after_rest', false)
-    form_data.append('delts_after_rest', false)
 
     var requestOptions = {
       method: 'POST',
@@ -154,7 +155,7 @@ function Form(props) {
       <InputGroup name="delts" value={state} label="SPALLE" onChange={handleChange}/>
       <Button
         onClick={handleSubmit} align="left" variant="outlined"
-        style={{color: "#c01f25", width: "15%", height: "6ch"}}>
+        style={{color: "#c01f25", width: "10%", height: "6ch"}}>
         <strong>GENERA</strong> </Button>
       <SplitTable days={state.days} split={split}/>
 

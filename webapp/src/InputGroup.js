@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, Grid, TextField } from '@material-ui/core';
+import { Checkbox, Typography, Grid, TextField } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import '@fontsource/roboto';
 
@@ -49,6 +50,17 @@ function InputGroup(props) {
               name={props.name + '_rotations'} 
               value={props.value[props.name + '_rotations']} label="Rotazioni"
               variant="outlined" onChange={props.onChange}/>
+          </Grid>
+          <Grid item xs>
+            <FormControlLabel 
+              control={
+                <Checkbox 
+                  name={props.name + '_after_rest'}
+                  checked={props.value[props.name + '_after_rest']}
+                  onChange={props.onChange}
+                  />
+              }
+              label="Dopo Rest Day" />
           </Grid>
 
         </Grid>
