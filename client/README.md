@@ -65,6 +65,24 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
+### Docker deployment
+Firstly, download [Docker desktop](https://www.docker.com/products/docker-desktop) and follow its
+ instructions to install it. This allows us to start using Docker containers.
+ 
+Create a local copy of this repository and run
+
+    docker-compose build
+    
+
+After the containers have been built (this may take a few minutes), run
+
+    docker-compose up
+    
+This one command boots up a local server for Flask (on port 5000)
+and React (on port 3000). Head over to
+
+    http://localhost:3000/ 
+
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
