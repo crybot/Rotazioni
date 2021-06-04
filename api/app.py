@@ -34,12 +34,34 @@ def solve_api():
             int(args['delts_rotations']),
             args['delts_after_rest'].lower() == 'true')
 
-    # TODO: parameterize preferences
-    chest.set_split_preference([arms, delts])
-    back.set_split_preference([arms, delts])
-    legs.set_split_preference([])
-    arms.set_split_preference([chest, back, delts])
-    delts.set_split_preference([chest, back, arms])
+    groups_map = {
+            'chest': chest,
+            'back': back,
+            'legs': legs,
+            'arms': arms,
+            'delts': delts
+            }
+
+    preferences = {
+            'chest': [],
+            'back': [],
+            'legs': [],
+            'arms': [],
+            'delts': []
+            }
+
+    for group in ['chest', 'back', 'legs', 'arms', 'delts']:
+        for other in ['chest', 'back', 'legs', 'arms', 'delts']:
+            if group == other: continue
+            p = '{}_preference_{}'.format(group, other)
+            if p in args.keys() and args[p].lower() == 'true':
+                preferences[group].append(groups_map[other])
+
+    chest.set_split_preference(preferences['chest'])
+    back.set_split_preference(preferences['back'])
+    legs.set_split_preference(preferences['legs'])
+    arms.set_split_preference(preferences['arms'])
+    delts.set_split_preference(preferences['delts'])
 
     groups = set([chest, back, legs, arms, delts])
     scheduler = SplitScheduler(groups,

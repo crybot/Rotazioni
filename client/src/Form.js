@@ -72,9 +72,6 @@ function Form(props) {
   const [loading, setLoading] = useState(false)
 
   const handleChange = (event) => {
-    console.log(state)
-    console.log(event.target)
-    console.log(event.target.value)
     setState({
       // Computed property names
       // keys of the objects are computed dynamically
