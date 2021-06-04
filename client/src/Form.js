@@ -70,6 +70,7 @@ function Form(props) {
   const [state, setState] = useState(defaultState)
   const [split, setSplit] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [rest, setRest] = useState({})
 
   const handleChange = (event) => {
     setState({
@@ -104,6 +105,13 @@ function Form(props) {
       .catch(error => console.log('error', error));
   }
 
+  const handleCellClick = ({row, col}, marked) => {
+    // setRest({
+    //   ...rest, [row]: marked
+    // })
+    // console.log(rest)
+  }
+
 
   return (
     <div>
@@ -131,7 +139,7 @@ function Form(props) {
         <CircularProgress color="secondary"/>
       </Backdrop>
 
-      <SplitTable days={state.days} split={split}/>
+      <SplitTable handleClick={handleCellClick} days={state.days} split={split}/>
 
     </div>
   );
