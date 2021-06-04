@@ -18,7 +18,7 @@ function SplitTable(props) {
         </Typography>
       </td>
       <td>
-        <Typography>
+        <Typography align="center">
           {split && n <= split.length ? split[n-1].join(' & ') : ''}
         </Typography>
       </td>
