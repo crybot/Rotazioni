@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox, Typography, Grid, TextField } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import '@fontsource/roboto';
+import PreferenceList from './PreferenceList'
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -11,7 +11,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function mapGroup(group) {
+  return {
+    'chest': 'PETTO',
+    'back': 'SCHIENA',
+    'legs': 'GAMBE',
+    'arms': 'BRACCIA',
+    'delts': 'SPALLE'
+  }[group.toLowerCase()]
+}
+
 function InputGroup(props) {
+  const groups = ['PETTO', 'SCHIENA', 'GAMBE', 'BRACCIA', 'SPALLE']
   const classes = useStyles();
   return (
     <Grid className={classes.grid} alignItems="center" container spacing={3}>
@@ -24,7 +35,7 @@ function InputGroup(props) {
         </Typography>
       </Grid>
 
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} md={2}>
         <TextField
           size="small"
           name={props.name + '_rest_min'}
@@ -32,7 +43,7 @@ function InputGroup(props) {
           Recupero" variant="outlined" onChange={props.onChange}/>
       </Grid>
 
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} md={2}>
         <TextField
           size="small"
           name={props.name + '_rest_max'} 
@@ -40,7 +51,7 @@ function InputGroup(props) {
           Recupero" variant="outlined" onChange={props.onChange}/>
       </Grid>
 
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} md={2}>
         <TextField
           size="small"
           name={props.name + '_rotations'} 
@@ -57,6 +68,10 @@ function InputGroup(props) {
             />
           }
           label="Dopo Rest Day" />
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <PreferenceList items={groups.filter((e) => e !== mapGroup(props.name))}>
+        </PreferenceList>
       </Grid>
 
     </Grid>
