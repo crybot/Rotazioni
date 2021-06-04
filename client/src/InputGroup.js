@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// TODO: export
 function mapGroup(group) {
   return {
     'chest': 'PETTO',
@@ -23,6 +24,7 @@ function mapGroup(group) {
 
 function InputGroup(props) {
   const groups = ['PETTO', 'SCHIENA', 'GAMBE', 'BRACCIA', 'SPALLE']
+  // const groups = ['PETTO', 'SCHIENA']
   const classes = useStyles();
   return (
     <Grid className={classes.grid} alignItems="center" container spacing={3}>
@@ -70,7 +72,11 @@ function InputGroup(props) {
           label="Dopo Rest Day" />
       </Grid>
       <Grid item xs={12} md={3}>
-        <PreferenceList items={groups.filter((e) => e !== mapGroup(props.name))}>
+        <PreferenceList
+          name={props.name + '_preference'}
+          value={props.value}
+          onChange={props.onChange}
+          items={groups.filter((e) => e !== mapGroup(props.name))}>
         </PreferenceList>
       </Grid>
 

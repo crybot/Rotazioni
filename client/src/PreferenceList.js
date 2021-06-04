@@ -11,11 +11,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// TODO: export
+function mapGroupInv(group) {
+  return {
+    'petto': 'chest',
+    'schiena': 'back',
+    'gambe': 'legs',
+    'braccia': 'arms',
+    'spalle': 'delts'
+  }[group.toLowerCase()]
+}
+
 export default function PreferenceList(props) {
   const classes = useStyles();
   const items = props.items
-  const handleToggle = (event) => {
 
+  const handleToggle = (event) => {
+    // TODO:
   }
 
   return (
@@ -25,13 +37,17 @@ export default function PreferenceList(props) {
         <Grid container>
           {
             items.map((item) => {
+            const valueId = props.name + '_' + mapGroupInv(item)
               return (
                 <Grid item xs={6}>
                   <ListItem 
                     key={item}
                     role="listitem" button
                     onClick={handleToggle}>
-                    <Checkbox/>
+                    <Checkbox
+                      name={valueId}
+                      onChange={props.onChange}
+                      checked={props.value[valueId]}/>
                     <ListItemText primary={item}/>
                   </ListItem>
                 </Grid>

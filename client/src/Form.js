@@ -14,6 +14,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const preferences = {
+  'chest': ['arms', 'delts'],
+  'back': ['arms', 'delts'],
+  'legs': [],
+  'arms': ['back', 'chest', 'delts'],
+  'delts': ['back', 'chest', 'arms']
+}
+
+function makeDefaultPreference(group) {
+  var preference = {}
+  for (var other of preferences[group]) {
+    const name = group + '_preference_' + other 
+    preference[name] = true
+  }
+  return preference
+}
+
 const defaultState = {
   days: 14,
   rest_days: 5,
@@ -40,6 +57,11 @@ const defaultState = {
   delts_rest_max: 10,
   delts_rotations: 3,
   delts_after_rest: false,
+  ...makeDefaultPreference('chest'),
+  ...makeDefaultPreference('back'),
+  ...makeDefaultPreference('legs'),
+  ...makeDefaultPreference('arms'),
+  ...makeDefaultPreference('delts'),
 }
 
 
@@ -50,7 +72,9 @@ function Form(props) {
   const [loading, setLoading] = useState(false)
 
   const handleChange = (event) => {
+    console.log(state)
     console.log(event.target)
+    console.log(event.target.value)
     setState({
       // Computed property names
       // keys of the objects are computed dynamically
