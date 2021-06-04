@@ -22,7 +22,7 @@ function SplitRow(props) {
   const [marked, setMarked] = useState(false)
   const handleClick = () => {
     setMarked(!marked)
-    props.handleClick(props.row, marked)
+    props.handleClick(props.row, !marked)
   }
   const cols = props.cols
   const n = props.row

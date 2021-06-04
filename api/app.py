@@ -1,6 +1,7 @@
 from flask import Flask, request
 from solver import MuscleGroup, SplitScheduler
 from flask_cors import CORS, cross_origin
+import json
 
 app = Flask(__name__)
 
@@ -63,10 +64,13 @@ def solve_api():
     arms.set_split_preference(preferences['arms'])
     delts.set_split_preference(preferences['delts'])
 
+    rest = json.loads(args['rest'])
+
     groups = set([chest, back, legs, arms, delts])
     scheduler = SplitScheduler(groups,
             int(args['days']),
             int(args['rest_days']),
+            rest,
             int(args['max_consecutive_work']),
             int(args['max_consecutive_rest']))
 

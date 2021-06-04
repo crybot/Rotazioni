@@ -29,11 +29,12 @@ class MuscleGroup:
         self.split_preference = set(preference)
 
 class SplitScheduler:
-    def __init__(self, groups, days, rest_days, 
+    def __init__(self, groups, days, rest_days, rest=[],
             max_consecutive_work=3, max_consecutive_rest=2):
         self.groups = groups
         self.days = range(days)
         self.rest_days = rest_days
+        self.rest = rest
         self.max_consecutive_work = max_consecutive_work
         self.max_consecutive_rest = max_consecutive_rest
         self._setup_variables()
@@ -68,6 +69,11 @@ class SplitScheduler:
             
         # In each microcycle there have to be exactly `rest_days` rest days
         model += sum(self.Y) == self.rest_days
+
+        # For each indicated rest day, we add the required constraint
+        for day in range(0, len(self.rest)):
+            if day != None and self.rest[day] == True:
+                model += self.Y[day] == 1
 
         # Max consecutive days of training/resting constraints
         for day in self.days:

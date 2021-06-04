@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Backdrop, Fade, CircularProgress, LinearProgress, Button, Typography, TextField} from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import InputGroup from './InputGroup'
@@ -70,14 +70,14 @@ function Form(props) {
   const [state, setState] = useState(defaultState)
   const [split, setSplit] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [rest, setRest] = useState({})
+  const rest = useRef([])
 
   const handleChange = (event) => {
     setState({
       // Computed property names
       // keys of the objects are computed dynamically
       ...state,
-      [event.target.name] : (event.target.type == 'checkbox'
+      [event.target.name] : (event.target.type === 'checkbox'
         ? event.target.checked // `value` is not defined for Checkbox
         : event.target.value)
     })
@@ -89,6 +89,8 @@ function Form(props) {
     for ( var key in state ) {
       form_data.append(key, state[key]);
     }
+    form_data.append('rest', JSON.stringify(rest.current))
+    console.log(rest.current)
 
     var requestOptions = {
       method: 'POST',
@@ -105,11 +107,8 @@ function Form(props) {
       .catch(error => console.log('error', error));
   }
 
-  const handleCellClick = ({row, col}, marked) => {
-    // setRest({
-    //   ...rest, [row]: marked
-    // })
-    // console.log(rest)
+  const handleCellClick = (row, marked) => {
+    rest.current[row-1] = marked // (row-1 because in the API days start from 0)
   }
 
 
