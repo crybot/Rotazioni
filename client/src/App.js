@@ -27,7 +27,9 @@ function App() {
           </Typography>
         </header>
         <body>
-          <Form/>
+          <center>
+            <Form/>
+          </center>
         </body>
         <footer>
           <Copyright/>
