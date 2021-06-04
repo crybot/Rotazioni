@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Button, Typography, TextField} from '@material-ui/core';
+import { Backdrop, Fade, CircularProgress, LinearProgress, Button, Typography, TextField} from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import InputGroup from './InputGroup'
 import SplitTable from './SplitTable'
@@ -47,6 +47,7 @@ function Form(props) {
   const classes = useStyles();
   const [state, setState] = useState(defaultState)
   const [split, setSplit] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (event) => {
     console.log(event.target)
@@ -73,9 +74,12 @@ function Form(props) {
       redirect: 'follow'
     };
 
+    setLoading(true)
+
     fetch("http://127.0.0.1:5000/solve", requestOptions)
       .then(response => response.json())
       .then(json => setSplit(json.split))
+      .then(_ => setLoading(false))
       .catch(error => console.log('error', error));
   }
 
@@ -101,6 +105,11 @@ function Form(props) {
         onClick={handleSubmit} align="left" variant="outlined"
         style={{color: "#c01f25", width: "10%", height: "6ch"}}>
         <strong>GENERA</strong> </Button>
+      <br/>
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="secondary"/>
+      </Backdrop>
+
       <SplitTable days={state.days} split={split}/>
 
     </div>
