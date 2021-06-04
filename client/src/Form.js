@@ -110,7 +110,7 @@ function Form(props) {
       // Computed property names
       // keys of the objects are computed dynamically
       ...state,
-      [event.target.name] : (event.target.value 
+      [event.target.name] : (event.target.value != null
         ? event.target.value // `value` is not defined for Checkbox
         : event.target.checked)
     })
