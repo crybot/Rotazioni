@@ -49,13 +49,14 @@ function Form(props) {
   const [split, setSplit] = useState(null)
 
   const handleChange = (event) => {
+    console.log(event.target)
     setState({
       // Computed property names
       // keys of the objects are computed dynamically
       ...state,
-      [event.target.name] : (event.target.value != null
-        ? event.target.value // `value` is not defined for Checkbox
-        : event.target.checked)
+      [event.target.name] : (event.target.type == 'checkbox'
+        ? event.target.checked // `value` is not defined for Checkbox
+        : event.target.value)
     })
   }
 
