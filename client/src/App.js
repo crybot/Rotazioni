@@ -10,20 +10,41 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: [
       'Oswald',
-      'regular',
     ].join(','),
-  },});
+  },
+  palette: {
+    secondary: {
+      main: '#c01f25', // shade of dark red
+    }
+  }
+});
+
+const useStyles = makeStyles({
+  title1: {
+    color: theme.palette.secondary.main,
+    fontSize: '30px',
+    marginTop: '0',
+    textAlign: 'right',
+    paddingRight: '3vw',
+  },
+
+  title2: {
+    color: theme.palette.secondary.main,
+    fontSize: '60px',
+  },
+});
 
 function App() {
   const numbers = [...Array(14).keys()]
+  const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
         <header className="App-header">
           <Typography>
-            <h2 className="App-title1"> GENERATORE DI SPLIT </h2>
-            <h1 className="App-title2"> ROTAZIONI </h1>
+            <h2 className={classes.title1}> GENERATORE DI SPLIT </h2>
+            <h1 className={classes.title2}> ROTAZIONI </h1>
           </Typography>
         </header>
         <body>

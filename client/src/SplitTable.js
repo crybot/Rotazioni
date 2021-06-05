@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { useState } from 'react';
+import { useTheme } from '@material-ui/core/styles';
 
 function weekday(n) {
   return {0: 'LUNEDÌ', 1: 'MARTEDÌ', 2: 'MERCOLEDÌ',                          
@@ -7,10 +8,13 @@ function weekday(n) {
     6: 'DOMENICA'}[(n-1) % 7]    
 }
 
+
 function SplitCell(props) {
+  const theme = useTheme();
+  console.log(theme.palette)
 
   return (
-    <td style={{backgroundColor: (props.marked ? 'red' : '')}}> 
+    <td style={{backgroundColor: (props.marked ? theme.palette.secondary.main : '')}}> 
       <Typography align="center">
         {props.groups.join(' & ')} 
       </Typography>
