@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useRef } from 'react';
-import { Backdrop, CircularProgress, Button, TextField} from '@material-ui/core';
+import { Typography, Backdrop, CircularProgress, Button, TextField} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import InputGroup from './InputGroup'
 import SplitTable from './SplitTable'
@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     color: theme.palette.secondary.main,
-    width: "10%",
-    height: "6ch"
+    width: "12%",
+    height: "8ch"
   },
 }));
 
@@ -136,7 +136,9 @@ function Form(props) {
       <InputGroup name="delts" value={state} label="SPALLE" onChange={handleChange}/>
       <Button
         onClick={handleSubmit} align="left" variant="outlined" className={classes.button}>
-        <strong>GENERA</strong>
+        <Typography>
+          <strong>GENERA</strong>
+        </Typography>
       </Button>
       <br/>
       <Backdrop className={classes.backdrop} open={loading}>

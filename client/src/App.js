@@ -19,17 +19,18 @@ const theme = createMuiTheme({
   overrides: {
     MuiCheckbox: {
       root: {
-        transform: 'scale(0.8)',
+        // transform: 'scale(0.8)',
       }
     }
   },
   props: {
     MuiCheckbox: {
-      size: "small",
+      size: "medium",
     },
     MuiTextField: {
-      inputProps: {style: {fontSize: 15}}, // font size of input text
-      InputLabelProps: {style: {fontSize: 15}}, // font size of input label
+      size: "medium",
+      // inputProps: {style: {fontSize: 15}}, // font size of input text
+      // InputLabelProps: {style: {fontSize: 15}}, // font size of input label
     },
   },
 
