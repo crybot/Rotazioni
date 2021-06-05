@@ -28,7 +28,7 @@ const theme = createMuiTheme({
       size: "small",
     },
     MuiTextField: {
-      inputProps: {style: {fontSize: 12}}, // font size of input text
+      inputProps: {style: {fontSize: 15}}, // font size of input text
       InputLabelProps: {style: {fontSize: 15}}, // font size of input label
     },
   },

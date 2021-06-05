@@ -10,8 +10,6 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px',
   },
   textField: {
-    maxWidth: '150px',
-    minWidth: '100px',
   },
 }));
 
