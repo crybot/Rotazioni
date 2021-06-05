@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px',
   },
   paper: {
-    maxWidth: '25ch'
+    // maxWidth: '25ch'
   }
 }));
 
@@ -31,7 +31,7 @@ export default function PreferenceList(props) {
   return (
     <Paper className={classes.paper} variant="outlined">
       <List dense component="div" role="list">
-        <Typography variant="body2">Allenabile Insieme:</Typography>
+        <Typography variant="body1">Allenabile Insieme:</Typography>
         <Grid className={classes.grid} container spacing={0}>
           {
             items.map((item) => {
@@ -46,7 +46,7 @@ export default function PreferenceList(props) {
                       name={valueId}
                       onChange={props.onChange}
                       checked={props.value[valueId]}/>
-                    <ListItemText primary={<Typography variant="overline">{item}</Typography>}/>
+                    <ListItemText primary={<Typography variant="body2">{item}</Typography>}/>
                   </ListItem>
                 </Grid>
               );

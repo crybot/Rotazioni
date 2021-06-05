@@ -15,7 +15,7 @@ function SplitCell(props) {
 
   return (
     <td style={{backgroundColor: (props.marked ? theme.palette.secondary.main : '')}}> 
-      <Typography variant="body2" align="center">
+      <Typography variant="body1" align="center">
         {props.groups.join(' & ')} 
       </Typography>
     </td>
@@ -35,7 +35,7 @@ function SplitRow(props) {
     <tr key={n.toString()}
       onClick={handleClick}>
       <td align="left"> 
-        <Typography variant="body2">
+        <Typography variant="body1">
           {weekday(n)}
         </Typography>
       </td>
@@ -76,22 +76,22 @@ function SplitTable(props) {
       <tr> 
         <th> </th>
         <th>
-          <Typography variant="body2">
+          <Typography variant="body1">
             ROTAZIONE I 
           </Typography>
         </th>
         <th>
-          <Typography variant="body2">
+          <Typography variant="body1">
             ROTAZIONE II
           </Typography>
         </th>
         <th>
-          <Typography variant="body2">
+          <Typography variant="body1">
             ROTAZIONE III
           </Typography>
         </th>
         <th>
-          <Typography variant="body2">
+          <Typography variant="body1">
             RICHIAMO
           </Typography>
         </th>
