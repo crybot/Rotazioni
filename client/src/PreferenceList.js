@@ -1,7 +1,5 @@
 import React from 'react';
-import { List, ListItem, ListItemText, 
-  ListItemIcon, Checkbox, 
-  Typography, Grid, Paper } from '@material-ui/core';
+import { List, ListItem, ListItemText, Checkbox, Typography, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +35,7 @@ export default function PreferenceList(props) {
             items.map((item) => {
             const valueId = props.name + '_' + mapGroupInv(item)
               return (
-                <Grid item xs={6}>
+                <Grid key={item.toString()} item xs={6}>
                   <ListItem 
                     name={valueId}
                     key={item}

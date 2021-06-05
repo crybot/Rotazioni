@@ -71,7 +71,7 @@ export default function InputGroup(props) {
               onChange={props.onChange}
             />
           }
-          labelPlacement="right"
+          labelPlacement="end"
           label={<Typography variant="body1">Dopo Rest Day</Typography>}/>
       </Grid>
       <Grid item xs={12} md={3}>

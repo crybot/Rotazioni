@@ -58,16 +58,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <header className="App-header">
-          <Typography>
-            <h2 className={classes.title1}> GENERATORE DI SPLIT </h2>
+          <Typography component="span">
+            <h1 className={classes.title1}> GENERATORE DI SPLIT </h1>
             <h1 className={classes.title2}> ROTAZIONI </h1>
           </Typography>
         </header>
-        <body>
-          <center>
-            <Form/>
-          </center>
-        </body>
+        <center>
+          <Form/>
+        </center>
         <footer>
           <Copyright/>
         </footer>

@@ -64,7 +64,7 @@ function SplitTable(props) {
           }
         }
       }
-      return (<SplitRow handleClick={props.handleClick} row={n} cols={cols} />);
+      return (<SplitRow key={n.toString()} handleClick={props.handleClick} row={n} cols={cols} />);
     });
 
     return rows
@@ -72,30 +72,32 @@ function SplitTable(props) {
 
   return (
     <table align="center">
-      <tr> 
-        <th> </th>
-        <th>
-          <Typography variant="body1">
-            ROTAZIONE I 
-          </Typography>
-        </th>
-        <th>
-          <Typography variant="body1">
-            ROTAZIONE II
-          </Typography>
-        </th>
-        <th>
-          <Typography variant="body1">
-            ROTAZIONE III
-          </Typography>
-        </th>
-        <th>
-          <Typography variant="body1">
-            RICHIAMO
-          </Typography>
-        </th>
-      </tr>
-      {makeRows()}
+      <tbody>
+        <tr> 
+          <th> </th>
+          <th>
+            <Typography variant="body1">
+              ROTAZIONE I 
+            </Typography>
+          </th>
+          <th>
+            <Typography variant="body1">
+              ROTAZIONE II
+            </Typography>
+          </th>
+          <th>
+            <Typography variant="body1">
+              ROTAZIONE III
+            </Typography>
+          </th>
+          <th>
+            <Typography variant="body1">
+              RICHIAMO
+            </Typography>
+          </th>
+        </tr>
+        {makeRows()}
+      </tbody>
     </table>
   );
 
