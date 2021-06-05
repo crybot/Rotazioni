@@ -2,19 +2,24 @@
   text-align: center;
 }
 
+.Checkbox {
+  transform: 'scaleY(0.1)';
+}
+
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
 }
 
-th, td {
+td {
   width: 20%;
 }
 
 table {
   width: 60%;
-  margin-top: 5vh;
+  margin-top: 6vh;
   margin-bottom: 30vh;
+  table-layout: 'fixed';
 }
 
 .App-header {

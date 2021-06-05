@@ -6,9 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
-    width: '80%',
     margin: '0px',
   },
+  paper: {
+    maxWidth: '25ch'
+  }
 }));
 
 // TODO: export
@@ -26,29 +28,25 @@ export default function PreferenceList(props) {
   const classes = useStyles();
   const items = props.items
 
-  const handleToggle = (event) => {
-    // TODO:
-  }
-
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} variant="outlined">
       <List dense component="div" role="list">
-        <Typography>Allenabile Insieme:</Typography>
-        <Grid container>
+        <Typography variant="body2">Allenabile Insieme:</Typography>
+        <Grid className={classes.grid} container spacing={0}>
           {
             items.map((item) => {
             const valueId = props.name + '_' + mapGroupInv(item)
               return (
                 <Grid item xs={6}>
                   <ListItem 
+                    name={valueId}
                     key={item}
-                    role="listitem" button
-                    onClick={handleToggle}>
+                    role="listitem">
                     <Checkbox
                       name={valueId}
                       onChange={props.onChange}
                       checked={props.value[valueId]}/>
-                    <ListItemText primary={item}/>
+                    <ListItemText primary={<Typography variant="overline">{item}</Typography>}/>
                   </ListItem>
                 </Grid>
               );

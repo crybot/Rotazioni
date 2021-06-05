@@ -6,8 +6,12 @@ import PreferenceList from './PreferenceList'
 
 const useStyles = makeStyles((theme) => ({
   grid: {
-    width: '80%',
+    width: '90%',
     margin: '0px',
+  },
+  textField: {
+    maxWidth: '150px',
+    minWidth: '100px',
   },
 }));
 
@@ -26,7 +30,7 @@ export default function InputGroup(props) {
   const groups = ['PETTO', 'SCHIENA', 'GAMBE', 'BRACCIA', 'SPALLE']
   const classes = useStyles();
   return (
-    <Grid className={classes.grid} alignItems="center" container spacing={3}>
+    <Grid className={classes.grid} alignItems="center" container spacing={2}>
 
       <Grid item xs={12} md={1}>
         <Typography
@@ -38,6 +42,7 @@ export default function InputGroup(props) {
 
       <Grid item xs={12} md={2}>
         <TextField
+          className={classes.textField}
           size="small"
           name={props.name + '_rest_min'}
           value={props.value[props.name + '_rest_min']} label="Min
@@ -46,6 +51,7 @@ export default function InputGroup(props) {
 
       <Grid item xs={12} md={2}>
         <TextField
+          className={classes.textField}
           size="small"
           name={props.name + '_rest_max'} 
           value={props.value[props.name + '_rest_max']} label="Max
@@ -54,6 +60,7 @@ export default function InputGroup(props) {
 
       <Grid item xs={12} md={2}>
         <TextField
+          className={classes.textField}
           size="small"
           name={props.name + '_rotations'} 
           value={props.value[props.name + '_rotations']} label="Rotazioni"
@@ -61,6 +68,7 @@ export default function InputGroup(props) {
       </Grid>
       <Grid item xs={12} md={2}>
         <FormControlLabel 
+          /* style={{marginBottom: "22px"}} /* hack to make the checkbox centered */
           control={
             <Checkbox 
               name={props.name + '_after_rest'}
@@ -68,7 +76,8 @@ export default function InputGroup(props) {
               onChange={props.onChange}
             />
           }
-          label="Dopo Rest Day" />
+          labelPlacement="right"
+          label={<Typography variant="body2">Dopo Rest Day</Typography>}/>
       </Grid>
       <Grid item xs={12} md={3}>
         <PreferenceList
