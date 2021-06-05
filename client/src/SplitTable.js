@@ -11,7 +11,6 @@ function weekday(n) {
 
 function SplitCell(props) {
   const theme = useTheme();
-  console.log(theme.palette)
 
   return (
     <td style={{backgroundColor: (props.marked ? theme.palette.secondary.main : '')}}> 
@@ -57,7 +56,7 @@ function SplitTable(props) {
     const rows = numbers.map((n) => {
       var cols = [[], [], []]
 
-      if (split != null) {
+      if (split != null && n <= split.length) {
         for (var group in groups) {
           if (split[n-1].includes(group)) {
             cols[groups[group]].push(group)
