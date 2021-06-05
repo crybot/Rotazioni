@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useRef } from 'react';
-import { Backdrop, Fade, CircularProgress, LinearProgress, Button, Typography, TextField} from '@material-ui/core';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { Backdrop, CircularProgress, Button, TextField} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import InputGroup from './InputGroup'
 import SplitTable from './SplitTable'
 
@@ -12,9 +12,14 @@ const useStyles = makeStyles((theme) => ({
       width: '15ch',
     },
   },
+  button: {
+    color: theme.palette.secondary.main,
+    width: "10%",
+    height: "6ch"
+  },
 }));
 
-const preferences = {
+const defaultPreferences = {
   'chest': ['arms', 'delts'],
   'back': ['arms', 'delts'],
   'legs': [],
@@ -24,7 +29,7 @@ const preferences = {
 
 function makeDefaultPreference(group) {
   var preference = {}
-  for (var other of preferences[group]) {
+  for (var other of defaultPreferences[group]) {
     const name = group + '_preference_' + other 
     preference[name] = true
   }
@@ -130,9 +135,9 @@ function Form(props) {
       <InputGroup name="arms" value={state} label="BRACCIA" onChange={handleChange}/>
       <InputGroup name="delts" value={state} label="SPALLE" onChange={handleChange}/>
       <Button
-        onClick={handleSubmit} align="left" variant="outlined"
-        style={{color: "#c01f25", width: "10%", height: "6ch"}}>
-        <strong>GENERA</strong> </Button>
+        onClick={handleSubmit} align="left" variant="outlined" className={classes.button}>
+        <strong>GENERA</strong>
+      </Button>
       <br/>
       <Backdrop className={classes.backdrop} open={loading}>
         <CircularProgress color="secondary"/>

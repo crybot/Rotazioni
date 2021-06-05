@@ -49,23 +49,27 @@ function SplitRow(props) {
 
 function SplitTable(props) {
 
-  const groups = {'CHEST': 0, 'BACK':0, 'LEGS':0, 'ARMS':0, 'DELTS':0}
-  const numbers = Array.from({length:props.days},(v,k)=>k+1)
-  const split = props.split
+  function makeRows() {
+    const groups = {'CHEST': 0, 'BACK':0, 'LEGS':0, 'ARMS':0, 'DELTS':0}
+    const numbers = Array.from({length:props.days},(v,k)=>k+1)
+    const split = props.split
 
-  const rows = numbers.map((n) => {
-    var cols = [[], [], []]
+    const rows = numbers.map((n) => {
+      var cols = [[], [], []]
 
-    if (split != null) {
-      for (var group in groups) {
-        if (split[n-1].includes(group)) {
-          cols[groups[group]].push(group)
-          groups[group] += 1
+      if (split != null) {
+        for (var group in groups) {
+          if (split[n-1].includes(group)) {
+            cols[groups[group]].push(group)
+            groups[group] += 1
+          }
         }
       }
-    }
-    return (<SplitRow handleClick={props.handleClick} row={n} cols={cols} />);
-  });
+      return (<SplitRow handleClick={props.handleClick} row={n} cols={cols} />);
+    });
+
+    return rows
+  }
 
   return (
     <table align="center">
@@ -92,7 +96,7 @@ function SplitTable(props) {
           </Typography>
         </th>
       </tr>
-      {rows}
+      {makeRows()}
     </table>
   );
 

@@ -1,6 +1,6 @@
-import {Typography, Link} from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 
-function Copyright() {
+export default function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -12,5 +12,3 @@ function Copyright() {
     </Typography>
   );
 }
-
-export default Copyright

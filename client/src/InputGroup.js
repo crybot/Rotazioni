@@ -1,6 +1,6 @@
 import React from 'react';
-import { Checkbox, Typography, Grid, TextField } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Checkbox, Typography, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PreferenceList from './PreferenceList'
 
@@ -22,9 +22,8 @@ function mapGroup(group) {
   }[group.toLowerCase()]
 }
 
-function InputGroup(props) {
+export default function InputGroup(props) {
   const groups = ['PETTO', 'SCHIENA', 'GAMBE', 'BRACCIA', 'SPALLE']
-  // const groups = ['PETTO', 'SCHIENA']
   const classes = useStyles();
   return (
     <Grid className={classes.grid} alignItems="center" container spacing={3}>
@@ -83,5 +82,3 @@ function InputGroup(props) {
     </Grid>
   );
 }
-
-export default InputGroup;

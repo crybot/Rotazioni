@@ -1,7 +1,6 @@
 import './App.css';
-import InputGroup from './InputGroup'
-import {Typography, TextField, Checkbox} from '@material-ui/core';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Form from './Form'
 import Copyright from './Copyright'
@@ -35,7 +34,6 @@ const useStyles = makeStyles({
 });
 
 function App() {
-  const numbers = [...Array(14).keys()]
   const classes = useStyles();
 
   return (
