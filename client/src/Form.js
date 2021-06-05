@@ -95,7 +95,6 @@ function Form(props) {
       form_data.append(key, state[key]);
     }
     form_data.append('rest', JSON.stringify(rest.current))
-    console.log(rest.current)
 
     var requestOptions = {
       method: 'POST',
