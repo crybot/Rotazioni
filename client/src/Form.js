@@ -127,7 +127,8 @@ function Form(props) {
 
     setLoading(true)
 
-    fetch("http://144.91.112.31:5000/solve", requestOptions)
+    const api_url = process.env.REACT_APP_FLASK_IP ? process.env.REACT_APP_FLASK_IP : 'http://localhost:5000'
+    fetch(api_url + '/solve', requestOptions)
       .then(response => response.json())
       .then(json => setSplit(json.split))
       .then(_ => setLoading(false))
