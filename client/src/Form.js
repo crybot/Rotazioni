@@ -69,6 +69,29 @@ const defaultState = {
   ...makeDefaultPreference('delts'),
 }
 
+function getGroupKeys(state, group) {
+  return Object.keys(state).filter((k) => k.startsWith(`${group}_`))
+}
+
+const stateGroupKeys = {
+  'chest': getGroupKeys(defaultState, 'chest'),
+  'back': getGroupKeys(defaultState, 'back'),
+  'legs': getGroupKeys(defaultState, 'legs'),
+  'arms': getGroupKeys(defaultState, 'arms'),
+  'delts': getGroupKeys(defaultState, 'delts'),
+}
+
+function getGroup(state, group) {
+  const keys = stateGroupKeys[group]
+  const filtered = Object.fromEntries(
+    Object.entries(state).filter(
+      ([key, val]) => keys.includes(key)
+    )
+  );
+  return filtered
+}
+
+
 
 function Form(props) {
   const classes = useStyles();
@@ -128,11 +151,11 @@ function Form(props) {
         <TextField name="max_consecutive_rest" value={state.max_consecutive_rest} label="Max
           Riposo Consecutivi" onChange={handleChange}/>
       </form>
-      <InputGroup name="chest" value={state} label="PETTO" onChange={handleChange}/>
-      <InputGroup name="back" value={state} label="SCHIENA" onChange={handleChange}/>
-      <InputGroup name="legs" value={state} label="GAMBE" onChange={handleChange}/>
-      <InputGroup name="arms" value={state} label="BRACCIA" onChange={handleChange}/>
-      <InputGroup name="delts" value={state} label="SPALLE" onChange={handleChange}/>
+      <InputGroup name="chest" value={getGroup(state, 'chest')} label="PETTO" onChange={handleChange}/>
+      <InputGroup name="back" value={getGroup(state, 'back')} label="SCHIENA" onChange={handleChange}/>
+      <InputGroup name="legs" value={getGroup(state, 'legs')} label="GAMBE" onChange={handleChange}/>
+      <InputGroup name="arms" value={getGroup(state, 'arms')} label="BRACCIA" onChange={handleChange}/>
+      <InputGroup name="delts" value={getGroup(state, 'delts')} label="SPALLE" onChange={handleChange}/>
       <Button
         onClick={handleSubmit} align="left" variant="outlined" className={classes.button}>
         <Typography>
