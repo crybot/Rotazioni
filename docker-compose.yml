@@ -1,11 +1,8 @@
 version: '3'
-
 services:
   api:
     build: api
     command: ["flask", "run", "--host=0.0.0.0"]
-    volumes:
-      - ./api:/backend
     environment:
       - FLASK_ENV=production
       - FLASK_APP=app.py
@@ -14,16 +11,10 @@ services:
 
   client:
     build: client
-    command: ["npm", "start"]
-    volumes:
-      - ./client:/frontend
-      - node-modules:/frontend/node_modules
+    command: ["nginx", "-g", "daemon off;"]
     environment:
-      - NODE_ENV=production
+    - NODE_ENV=production
     ports:
-      - '3000:3000'
+    - '3000:80'
     depends_on:
-      - api
-
-volumes:
-  node-modules:
+    - api
