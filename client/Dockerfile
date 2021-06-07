@@ -2,8 +2,11 @@ FROM node:14 AS builder
 RUN mkdir /frontend
 WORKDIR /frontend
 COPY package.json /frontend/package.json
+COPY build.sh /frontend/build.sh
 COPY . .
-RUN npm install && npm run build
+RUN npm install
+# Run a seperate build script to also export env variables
+RUN /frontend/build.sh
 
 # nginx state for serving content
 FROM nginx:stable-alpine

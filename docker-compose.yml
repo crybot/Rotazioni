@@ -13,8 +13,8 @@ services:
     build: client
     command: ["nginx", "-g", "daemon off;"]
     environment:
-      - NODE_ENV=production
-      - REACT_APP_FLASK_IP="http://144.91.112.31:5000"
+      - "REACT_APP_FLASK_IP=http://144.91.112.31:5000"
+      - "NODE_ENV=production"
 
     ports:
       - '3000:80'
