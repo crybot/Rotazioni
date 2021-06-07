@@ -4,6 +4,7 @@ import { Typography, Backdrop, CircularProgress, Button, TextField} from '@mater
 import { makeStyles } from '@material-ui/core/styles';
 import { InputGroup, IntegerField } from './InputGroup'
 import SplitTable from './SplitTable'
+import ChoiceDialog from './ChoiceDialog'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
     height: "8ch"
   },
 }));
+
+// TODO: global config files
+// const groups = ['chest', 'back', 'legs', 'arms', 'delts']
+const groups = ['petto', 'schiena', 'gambe', 'braccia', 'spalle']
 
 const defaultPreferences = {
   'chest': ['arms', 'delts'],
@@ -99,6 +104,7 @@ function Form(props) {
   const [errors, setErrors] = useState({})
   const [split, setSplit] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
   const rest = useRef([])
 
   // Return true if any input component of the Form contains errors
@@ -153,8 +159,13 @@ function Form(props) {
       .catch(error => console.log('error', error));
   }
 
-  const handleCellClick = (row, marked) => {
+  const handleRowClick = (row, marked) => {
     rest.current[row-1] = marked // (row-1 because in the API days start from 0)
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = (value) => {
+    setOpenDialog(false)
   }
 
 
@@ -228,11 +239,13 @@ function Form(props) {
         </Typography>
       </Button>
       <br/>
+      <ChoiceDialog items={groups} onClose={handleCloseDialog} open={openDialog}>
+      </ChoiceDialog>
       <Backdrop className={classes.backdrop} open={loading}>
         <CircularProgress color="secondary"/>
       </Backdrop>
 
-      <SplitTable handleClick={handleCellClick} days={state.days} split={split}/>
+      <SplitTable handleClick={handleRowClick} days={state.days} split={split}/>
 
     </div>
 );

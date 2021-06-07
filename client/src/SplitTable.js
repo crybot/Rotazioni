@@ -1,12 +1,19 @@
-import { Typography } from '@material-ui/core';
+import { Icon, IconButton, Typography } from '@material-ui/core';
 import { useState } from 'react';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 
 function weekday(n) {
   return {0: 'LUNEDÌ', 1: 'MARTEDÌ', 2: 'MERCOLEDÌ',                          
     3: 'GIOVEDÌ', 4: 'VENERDÌ', 5: 'SABATO',                          
     6: 'DOMENICA'}[(n-1) % 7]    
 }
+
+const useStyles = (theme) => makeStyles({
+  // buttonCol: {
+  //   width: '10px',
+  //   border: 'none',
+  // },
+});
 
 
 function SplitCell(props) {
@@ -22,6 +29,7 @@ function SplitCell(props) {
 }
 
 function SplitRow(props) {
+  const classes = useStyles()
   const [marked, setMarked] = useState(false)
   const handleClick = () => {
     setMarked(!marked)
@@ -33,20 +41,28 @@ function SplitRow(props) {
   return (
     <tr key={n.toString()}
       onClick={handleClick}>
+      <td align="right" style={{width: '10px', border: 'none'}}> 
+        <IconButton size="small">
+          <Icon>
+            add_box
+          </Icon>
+        </IconButton>
+      </td>
       <td align="left"> 
         <Typography variant="body1">
           {weekday(n)}
         </Typography>
       </td>
-      <SplitCell marked={marked} handleClick={props.handleClick} groups={cols[0]}/>
-      <SplitCell marked={marked} handleClick={props.handleClick} groups={cols[1]}/>
-      <SplitCell marked={marked} handleClick={props.handleClick} groups={cols[2]}/>
-      <SplitCell marked={marked} handleClick={props.handleClick} groups={[]}/>
+      <SplitCell marked={marked} groups={cols[0]}/>
+      <SplitCell marked={marked} groups={cols[1]}/>
+      <SplitCell marked={marked} groups={cols[2]}/>
+      <SplitCell marked={marked} groups={[]}/>
     </tr>
   );
 }
 
 function SplitTable(props) {
+  const classes = useStyles()
 
   function makeRows() {
     const groups = {'CHEST': 0, 'BACK':0, 'LEGS':0, 'ARMS':0, 'DELTS':0}
@@ -74,7 +90,8 @@ function SplitTable(props) {
     <table align="center">
       <tbody>
         <tr> 
-          <th> </th>
+          <th style={{width: '10px', border: 'none'}}> </th> {/* Button */}
+          <th> </th> {/* Day */}
           <th>
             <Typography variant="body1">
               ROTAZIONE I 

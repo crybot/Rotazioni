@@ -6,7 +6,7 @@
   transform: 'scaleY(0.1)';
 }
 
-table, th, td {
+th, td {
   border: 1px solid black;
   border-collapse: collapse;
 }
@@ -16,10 +16,12 @@ td {
 }
 
 table {
-  width: 60%;
+  width: 65%;
   margin-top: 6vh;
   margin-bottom: 30vh;
   table-layout: 'fixed';
+  border: none;
+  border-collapse: collapse;
 }
 
 .App-header {
