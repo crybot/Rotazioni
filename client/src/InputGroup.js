@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Checkbox, Typography, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,9 +24,45 @@ function mapGroup(group) {
   }[group.toLowerCase()]
 }
 
+function IntegerField(props) {
+  const classes = useStyles();
+  const [state, setState] = useState({'error': false})
+
+  function validateInput(value) {
+    if (!value || isNaN(value)) {
+      return false
+    } 
+    if (value < (props.min || 1)) {
+      return false
+    }
+    return true
+  }
+
+  function handleChange(event) {
+    props.onChange(event)
+    const error = !validateInput(event.target.value)
+    if (props.onError) {
+      props.onError(event.target.name, error)
+    }
+    setState({'error': error})
+  }
+
+  return (
+    <TextField
+      className={classes.textField}
+      name={props.name}
+      error={state.error}
+      value={props.value}
+      label={props.label}
+      variant={props.variant || "outlined"}
+      onChange={handleChange}/>);
+
+}
+
 export default function InputGroup(props) {
   const groups = ['PETTO', 'SCHIENA', 'GAMBE', 'BRACCIA', 'SPALLE']
   const classes = useStyles();
+
   return (
     <Grid className={classes.grid} alignItems="center" container spacing={1}>
 
@@ -39,27 +75,28 @@ export default function InputGroup(props) {
       </Grid>
 
       <Grid item xs={12} md={2}>
-        <TextField
-          className={classes.textField}
+        <IntegerField
+          onError={props.onError}
           name={props.name + '_rest_min'}
-          value={props.value[props.name + '_rest_min']} label="Min
-          Recupero" variant="outlined" onChange={props.onChange}/>
+          value={props.value[props.name + '_rest_min']} label="Min Recupero"
+          onChange={props.onChange}
+        />
       </Grid>
 
       <Grid item xs={12} md={2}>
-        <TextField
-          className={classes.textField}
+        <IntegerField
+          onError={props.onError}
           name={props.name + '_rest_max'} 
-          value={props.value[props.name + '_rest_max']} label="Max
-          Recupero" variant="outlined" onChange={props.onChange}/>
+          value={props.value[props.name + '_rest_max']} label="Max Recupero"
+          onChange={props.onChange}/>
       </Grid>
 
       <Grid item xs={12} md={2}>
-        <TextField
-          className={classes.textField}
+        <IntegerField
+          onError={props.onError}
           name={props.name + '_rotations'} 
           value={props.value[props.name + '_rotations']} label="Rotazioni"
-          variant="outlined" onChange={props.onChange}/>
+          onChange={props.onChange}/>
       </Grid>
       <Grid item xs={12} md={2}>
         <FormControlLabel 
@@ -86,3 +123,5 @@ export default function InputGroup(props) {
     </Grid>
   );
 }
+
+export { InputGroup, IntegerField }

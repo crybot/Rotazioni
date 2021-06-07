@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useRef } from 'react';
 import { Typography, Backdrop, CircularProgress, Button, TextField} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import InputGroup from './InputGroup'
+import { InputGroup, IntegerField } from './InputGroup'
 import SplitTable from './SplitTable'
 
 const useStyles = makeStyles((theme) => ({
@@ -96,24 +96,42 @@ function getGroup(state, group) {
 function Form(props) {
   const classes = useStyles();
   const [state, setState] = useState(defaultState)
+  const [errors, setErrors] = useState({})
   const [split, setSplit] = useState(null)
   const [loading, setLoading] = useState(false)
   const rest = useRef([])
 
+  // Return true if any input component of the Form contains errors
+  const isInputValid = () => {
+    return !(Object.values(errors).indexOf(true) > -1)
+  }
+
   const handleChange = (event) => {
+    console.log(event.target)
     setState({
       // Computed property names
       // keys of the objects are computed dynamically
       ...state,
       [event.target.name] : (event.target.type === 'checkbox'
         ? event.target.checked // `value` is not defined for Checkbox
-        : event.target.value)
+        : event.target.value),
     })
   }
 
-  const handleSubmit = async (event) => {
-    var form_data = new FormData();
+  // TODO: compare performance vs object destructuring (c.f. handleChange)
+  const handleError = (name, error) => {
+    let newErrors = errors
+    newErrors[name] = error
+    setErrors(newErrors)
+  }
 
+
+  const handleSubmit = async (event) => {
+    if (!isInputValid()) {
+      return
+    }
+
+    var form_data = new FormData();
     for ( var key in state ) {
       form_data.append(key, state[key]);
     }
@@ -143,21 +161,67 @@ function Form(props) {
   return (
     <div>
       <form className={classes.root} noValidate autoComplete="off">
-        <TextField name="days" value={state.days} label="Giorni Microciclo"
+        <IntegerField
+          name="days" 
+          value={state.days}
+          label="Giorni Microciclo"
+          variant="standard"
+          onError={handleError}
           onChange={handleChange}/>
-        <TextField name="rest_days" value={state.rest_days} label="Giorni di Riposo"
+        <IntegerField 
+          name="rest_days"
+          value={state.rest_days}
+          label="Giorni di Riposo"
+          variant="standard"
+          onError={handleError}
           onChange={handleChange}/>
-        <TextField name="max_consecutive_work" value={state.max_consecutive_work} label="Max
-          Workout Consecutivi" onChange={handleChange}/>
-        <TextField name="max_consecutive_rest" value={state.max_consecutive_rest} label="Max
-          Riposo Consecutivi" onChange={handleChange}/>
+        <IntegerField
+          name="max_consecutive_work"
+          value={state.max_consecutive_work}
+          label="Max Workout Consecutivi" 
+          variant="standard"
+          onError={handleError}
+          onChange={handleChange}/>
+        <IntegerField
+          name="max_consecutive_rest"
+          value={state.max_consecutive_rest}
+          label="Max Riposo Consecutivi"
+          variant="standard"
+          onError={handleError}
+          onChange={handleChange}/>
       </form>
-      <InputGroup name="chest" value={getGroup(state, 'chest')} label="PETTO" onChange={handleChange}/>
-      <InputGroup name="back" value={getGroup(state, 'back')} label="SCHIENA" onChange={handleChange}/>
-      <InputGroup name="legs" value={getGroup(state, 'legs')} label="GAMBE" onChange={handleChange}/>
-      <InputGroup name="arms" value={getGroup(state, 'arms')} label="BRACCIA" onChange={handleChange}/>
-      <InputGroup name="delts" value={getGroup(state, 'delts')} label="SPALLE" onChange={handleChange}/>
+      <InputGroup 
+        name="chest"
+        value={getGroup(state, 'chest')}
+        label="PETTO" 
+        onError={handleError}
+        onChange={handleChange}/>
+      <InputGroup
+        name="back"
+        value={getGroup(state, 'back')}
+        label="SCHIENA"
+        onError={handleError}
+        onChange={handleChange}/>
+      <InputGroup
+        name="legs"
+        value={getGroup(state, 'legs')}
+        label="GAMBE"
+        onError={handleError}
+        onChange={handleChange}/>
+      <InputGroup
+        name="arms"
+        value={getGroup(state, 'arms')}
+        label="BRACCIA"
+        onError={handleError}
+        onChange={handleChange}/>
+      <InputGroup
+        name="delts"
+        value={getGroup(state, 'delts')}
+        label="SPALLE"
+        onError={handleError}
+        onChange={handleChange}/>
       <Button
+        disabled={!isInputValid()}
         onClick={handleSubmit} align="left" variant="outlined" className={classes.button}>
         <Typography>
           <strong>GENERA</strong>
@@ -171,7 +235,7 @@ function Form(props) {
       <SplitTable handleClick={handleCellClick} days={state.days} split={split}/>
 
     </div>
-  );
+);
 }
 
 export default Form
