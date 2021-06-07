@@ -29,10 +29,19 @@ function IntegerField(props) {
   const [state, setState] = useState({'error': false})
 
   function validateInput(value) {
-    if (!value || isNaN(value)) {
+    if (!value || isNaN(value) || !Number.isInteger(parseFloat(value))) {
       return false
     } 
-    if (value < (props.min || 1)) {
+    if (value.startsWith(".") || value.endsWith(".")) {
+      return false
+    }
+    if (value < 0) {
+      return false
+    }
+    if (props.min && value < props.min) {
+      return false
+    }
+    if (props.max && value > props.max) {
       return false
     }
     return true
@@ -96,6 +105,8 @@ export default function InputGroup(props) {
           onError={props.onError}
           name={props.name + '_rotations'} 
           value={props.value[props.name + '_rotations']} label="Rotazioni"
+          min={0}
+          max={3}
           onChange={props.onChange}/>
       </Grid>
       <Grid item xs={12} md={2}>
