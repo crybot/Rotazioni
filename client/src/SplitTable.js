@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { TableRow, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
 function weekday(n) {
@@ -27,7 +27,8 @@ function SplitRow(props) {
   const n = props.row
 
   return (
-    <tr key={n.toString()}
+    <TableRow key={n.toString()}
+      hover
       onClick={handleClick}>
       <td align="left"> 
         <Typography variant="body1">
@@ -38,7 +39,7 @@ function SplitRow(props) {
       <SplitCell rest={props.rest} groups={cols[1]}/>
       <SplitCell rest={props.rest} groups={cols[2]}/>
       <SplitCell rest={props.rest} groups={[]}/>
-    </tr>
+    </TableRow>
   );
 }
 
