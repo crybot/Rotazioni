@@ -20,7 +20,8 @@ function SplitCell(props) {
   const theme = useTheme();
 
   return (
-    <td style={{backgroundColor: (props.marked ? theme.palette.secondary.main : '')}}> 
+    /* <td style={{backgroundColor: (props.marked ? theme.palette.secondary.main : '')}}> */
+    <td style={{backgroundColor: ''}}> 
       <Typography variant="body1" align="center">
         {props.groups.join(' & ')} 
       </Typography>

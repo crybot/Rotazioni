@@ -4,12 +4,11 @@ export default function SimpleDialog(props) {
   const { onClose, selectedValue, open, items } = props;
 
   const handleClose = () => {
-    // onClose(selectedValue);
     onClose(null);
   };
 
   const handleListItemClick = (value) => {
-    // onClose(value);
+    onClose(value);
   };
 
   return (
@@ -18,7 +17,7 @@ export default function SimpleDialog(props) {
       <List>
         {
           items.map((item) =>
-            <ListItem button key={item}>
+            <ListItem onClick={() => handleListItemClick(item)} button key={item}>
               <ListItemText primary={
                 <Typography align="center" variant="body1">
                   {item.toUpperCase()}

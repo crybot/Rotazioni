@@ -20,6 +20,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// TODO: export
+function mapGroupInv(group) {
+  return {
+    'petto': 'chest',
+    'schiena': 'back',
+    'gambe': 'legs',
+    'braccia': 'arms',
+    'spalle': 'delts'
+  }[group.toLowerCase()]
+}
+
 // TODO: global config files
 // const groups = ['chest', 'back', 'legs', 'arms', 'delts']
 const groups = ['petto', 'schiena', 'gambe', 'braccia', 'spalle']
@@ -105,7 +116,24 @@ function Form(props) {
   const [split, setSplit] = useState(null)
   const [loading, setLoading] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
+  const [choices, setChoices] = useState([])
   const rest = useRef([])
+  const selectedRow = useRef(null)
+
+  function rotations(group, split) {
+    if (!split) {
+      return 0
+    }
+
+    var n = 0
+    for (var day of split) {
+      if (day) {
+        n = day.includes(group) ? n + 1 : n
+      }
+    }
+    return n
+  }
+
 
   // Return true if any input component of the Form contains errors
   const isInputValid = () => {
@@ -142,6 +170,7 @@ function Form(props) {
       form_data.append(key, state[key]);
     }
     form_data.append('rest', JSON.stringify(rest.current))
+    form_data.append('choices', JSON.stringify(choices.map(e => Array.from(e))))
 
     var requestOptions = {
       method: 'POST',
@@ -160,12 +189,37 @@ function Form(props) {
   }
 
   const handleRowClick = (row, marked) => {
-    rest.current[row-1] = marked // (row-1 because in the API days start from 0)
+    // TODO: assert days > 0 
+    // rest.current[row-1] = marked // (row-1 because in the API days start from 0)
     setOpenDialog(true)
+    selectedRow.current = row
   }
 
   const handleCloseDialog = (value) => {
+    // TODO: assert days > 0 
+    // TODO: handle rest days
     setOpenDialog(false)
+
+    if (value) {
+      let newChoices = choices
+      let newValue = mapGroupInv(value).toUpperCase()
+      let row = selectedRow.current - 1
+
+      if (!newChoices[row]) {
+        newChoices[row] = new Set()
+      }
+      if (rotations(newValue, newChoices.map( e => Array.from(e) )) < 3) {
+        newChoices[row].add(newValue)
+
+        let newSplit = Array(state.days).fill().map(() => [])
+        for (const day in choices) {
+          newSplit[day] = Array.from(newChoices[day])
+        }
+        setSplit(newSplit)
+        setChoices(newChoices)
+      }
+    }
+
   }
 
 
@@ -239,7 +293,7 @@ function Form(props) {
         </Typography>
       </Button>
       <br/>
-      <ChoiceDialog items={groups} onClose={handleCloseDialog} open={openDialog}>
+      <ChoiceDialog items={groups.concat(['rest'])} onClose={handleCloseDialog} open={openDialog}>
       </ChoiceDialog>
       <Backdrop className={classes.backdrop} open={loading}>
         <CircularProgress color="secondary"/>
@@ -248,7 +302,7 @@ function Form(props) {
       <SplitTable handleClick={handleRowClick} days={state.days} split={split}/>
 
     </div>
-);
+  );
 }
 
 export default Form

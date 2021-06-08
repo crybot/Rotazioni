@@ -66,11 +66,17 @@ def solve_api():
 
     rest = json.loads(args['rest'])
 
+    choices = json.loads(args['choices'])
+    # choices = [[g for g in choice] for choice in choices]
+    print(choices)
+    print(rest)
+
     groups = set([chest, back, legs, arms, delts])
     scheduler = SplitScheduler(groups,
             int(args['days']),
             int(args['rest_days']),
             rest,
+            choices,
             int(args['max_consecutive_work']),
             int(args['max_consecutive_rest']))
 
