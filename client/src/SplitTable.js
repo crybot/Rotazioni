@@ -7,6 +7,17 @@ function weekday(n) {
     6: 'DOMENICA'}[(n-1) % 7]    
 }
 
+// TODO: export
+function mapGroup(group) {
+  return {
+    'chest': 'PETTO',
+    'back': 'SCHIENA',
+    'legs': 'GAMBE',
+    'arms': 'BRACCIA',
+    'delts': 'SPALLE'
+  }[group.toLowerCase()]
+}
+
 function SplitCell(props) {
   const theme = useTheme();
 
@@ -57,7 +68,7 @@ function SplitTable(props) {
       if (split != null && n <= split.length) {
         for (var group in groups) {
           if (split[n-1].includes(group)) {
-            cols[groups[group]].push(group)
+            cols[groups[group]].push(mapGroup(group))
             groups[group] += 1
           }
         }
