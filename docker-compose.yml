@@ -13,7 +13,7 @@ services:
     build: client
     command: ["nginx", "-g", "daemon off;"]
     environment:
-      - "REACT_APP_FLASK_IP=https://irc.openglass.it"
+      - "REACT_APP_FLASK_IP=https://rotazioni.ns0.it/solve"
       - "NODE_ENV=production"
 
     ports:

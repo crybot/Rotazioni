@@ -184,8 +184,8 @@ function Form(props) {
 
     setLoading(true)
 
-    const api_url = process.env.REACT_APP_FLASK_IP ? process.env.REACT_APP_FLASK_IP : 'http://localhost:5000'
-    fetch(api_url + '/solve', requestOptions)
+    const api_url = process.env.REACT_APP_FLASK_IP ? process.env.REACT_APP_FLASK_IP : 'http://localhost:5000/solve'
+    fetch(api_url, requestOptions)
       .then(response => response.json())
       .then(json => {
         if(!json.split) {
