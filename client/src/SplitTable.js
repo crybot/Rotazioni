@@ -1,20 +1,11 @@
-import { Icon, IconButton, Typography } from '@material-ui/core';
-import { useState } from 'react';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
 function weekday(n) {
   return {0: 'LUNEDÌ', 1: 'MARTEDÌ', 2: 'MERCOLEDÌ',                          
     3: 'GIOVEDÌ', 4: 'VENERDÌ', 5: 'SABATO',                          
     6: 'DOMENICA'}[(n-1) % 7]    
 }
-
-const useStyles = (theme) => makeStyles({
-  // buttonCol: {
-  //   width: '10px',
-  //   border: 'none',
-  // },
-});
-
 
 function SplitCell(props) {
   const theme = useTheme();
@@ -29,7 +20,6 @@ function SplitCell(props) {
 }
 
 function SplitRow(props) {
-  const classes = useStyles()
   const handleClick = () => {
     props.handleClick(props.row)
   }
@@ -39,13 +29,6 @@ function SplitRow(props) {
   return (
     <tr key={n.toString()}
       onClick={handleClick}>
-      <td align="right" style={{width: '10px', border: 'none'}}> 
-        <IconButton size="small">
-          <Icon>
-            add_box
-          </Icon>
-        </IconButton>
-      </td>
       <td align="left"> 
         <Typography variant="body1">
           {weekday(n)}
@@ -60,7 +43,6 @@ function SplitRow(props) {
 }
 
 function SplitTable(props) {
-  const classes = useStyles()
 
   function makeRows() {
     const groups = {'CHEST': 0, 'BACK':0, 'LEGS':0, 'ARMS':0, 'DELTS':0}
@@ -88,7 +70,6 @@ function SplitTable(props) {
     <table align="center">
       <tbody>
         <tr> 
-          <th style={{width: '10px', border: 'none'}}> </th> {/* Button */}
           <th> </th> {/* Day */}
           <th>
             <Typography variant="body1">
