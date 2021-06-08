@@ -1,4 +1,4 @@
-from pulp import getSolver, LpMinimize, LpMaximize, LpProblem, LpStatus, lpSum, LpVariable
+from pulp import LpMinimize, LpMaximize, LpProblem, LpStatus, lpSum, LpVariable
 
 def weekday(day):
     return {0: 'MONDAY', 1: 'TUESDAY', 2: 'WEDNESDAY', 
@@ -140,8 +140,7 @@ class SplitScheduler:
 
     def solve(self):
         # Solve the problem
-        solver = getSolver('PULP_CHOCO_CMD')
-        status = self.model.solve(solver) 
+        status = self.model.solve() 
         if status == 1:
             return self._make_split()
         else:
