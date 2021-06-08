@@ -6,6 +6,12 @@
   transform: 'scaleY(0.1)';
 }
 
+#menu {
+  position: fixed;
+  top: 0;
+  /* margin-top: -2.5em; */
+}
+
 th, td {
   border: 1px solid black;
   border-collapse: collapse;

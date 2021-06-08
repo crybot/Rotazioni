@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState, useRef } from 'react';
-import { Typography, Backdrop, CircularProgress, Button, TextField} from '@material-ui/core';
+import { Collapse, Typography, Backdrop, CircularProgress, Button } from '@material-ui/core';
+import { Icon, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { InputGroup, IntegerField } from './InputGroup'
+import Alert from '@material-ui/lab/Alert';
 import SplitTable from './SplitTable'
 import ChoiceDialog from './ChoiceDialog'
 
@@ -116,6 +118,7 @@ function Form(props) {
   const [split, setSplit] = useState(null)
   const [loading, setLoading] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
+  const [infeasible, setInfeasible] = useState(false)
   const [choices, setChoices] = useState([])
   const rest = useRef([])
   const selectedRow = useRef(null)
@@ -186,8 +189,10 @@ function Form(props) {
       .then(response => response.json())
       .then(json => {
         if(!json.split) {
+          setInfeasible(true)
           return setSplit(recomputeSplit(choices))
         }
+        setInfeasible(false)
         return setSplit(json.split)
       })
       .then(_ => setLoading(false))
@@ -245,6 +250,28 @@ function Form(props) {
 
   return (
     <div>
+      <Collapse in={infeasible}>
+        <Alert
+          id="menu"
+          severity="warning"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setInfeasible(false)
+              }}>
+              <Icon>
+                close
+              </Icon>
+            </IconButton>
+          }>
+          <Typography variant="body1">
+              I vincoli imposti non consentono di generare una split
+          </Typography>
+        </Alert>
+      </Collapse>
       <form className={classes.root} noValidate autoComplete="off">
         <IntegerField
           name="days" 
