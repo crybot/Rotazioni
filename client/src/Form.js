@@ -237,6 +237,14 @@ function Form(props) {
       return
     }
 
+    if (value === 'clear') {
+      rest.current[row] = false
+      newChoices[row] = new Set()
+      setChoices(newChoices)
+      setSplit(recomputeSplit(newChoices))
+      return
+    }
+
     let newValue = mapGroupInv(value).toUpperCase()
 
     if (rotations(newValue, newChoices.map( e => Array.from(e) )) < 3) {

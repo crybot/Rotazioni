@@ -1,4 +1,4 @@
-import { Paper, Dialog, DialogTitle, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { Icon, IconButton, Paper, Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
 
 export default function SimpleDialog(props) {
   const { onClose, selectedValue, open, items } = props;
@@ -11,9 +11,13 @@ export default function SimpleDialog(props) {
     onClose(value);
   };
 
+  const handleDeleteClick = () => {
+    onClose('clear')
+  }
+
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Indicare il gruppo muscolare</DialogTitle>
+      <DialogTitle>Indicare il Gruppo Muscolare</DialogTitle>
       <List>
         {
           items.map((item) =>
@@ -25,6 +29,18 @@ export default function SimpleDialog(props) {
                 }/>
             </ListItem>)
         }
+        <ListItem onClick={handleDeleteClick} button key="cancel">
+          <ListItemIcon>
+            <Icon>
+              delete
+            </Icon>
+          </ListItemIcon>
+          <ListItemText primary={
+            <Typography align="right" variant="body1">
+              Ripristina
+            </Typography>
+            }/>
+        </ListItem>
       </List>
     </Dialog>
   );
