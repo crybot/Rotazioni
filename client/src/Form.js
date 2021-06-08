@@ -217,12 +217,13 @@ function Form(props) {
     // TODO: assert days > 0 
     setOpenDialog(false)
 
+    let row = selectedRow.current - 1
+    let newChoices = choices
+    selectedRow.current = null
+
     if (!value) {
       return
     }
-
-    let row = selectedRow.current - 1
-    let newChoices = choices
 
     if (!newChoices[row]) {
       newChoices[row] = new Set()
@@ -346,7 +347,7 @@ function Form(props) {
         <CircularProgress color="secondary"/>
       </Backdrop>
 
-      <SplitTable rest={rest.current} handleClick={handleRowClick} days={state.days} split={split}/>
+      <SplitTable selectedRow={selectedRow.current} rest={rest.current} handleClick={handleRowClick} days={state.days} split={split}/>
 
     </div>
   );

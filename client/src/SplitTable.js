@@ -29,6 +29,7 @@ function SplitRow(props) {
   return (
     <TableRow key={n.toString()}
       hover
+      selected={props.selected}
       onClick={handleClick}>
       <td align="left"> 
         <Typography variant="body1">
@@ -61,7 +62,13 @@ function SplitTable(props) {
           }
         }
       }
-      return (<SplitRow rest={props.rest ? props.rest[n-1] : false} key={n.toString()} handleClick={props.handleClick} row={n} cols={cols} />);
+      return (<SplitRow
+        key={n.toString()}
+        selected={props.selectedRow === n}
+        rest={props.rest ? props.rest[n-1] : false}
+        handleClick={props.handleClick}
+        row={n}
+        cols={cols} />);
     });
 
     return rows
