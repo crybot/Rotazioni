@@ -161,6 +161,7 @@ function Form(props) {
 
 
   const handleSubmit = async (event) => {
+    // TODO: handle infeasible problem by triggering an alert
     if (!isInputValid()) {
       return
     }
@@ -183,41 +184,60 @@ function Form(props) {
     const api_url = process.env.REACT_APP_FLASK_IP ? process.env.REACT_APP_FLASK_IP : 'http://localhost:5000'
     fetch(api_url + '/solve', requestOptions)
       .then(response => response.json())
-      .then(json => setSplit(json.split))
+      .then(json => {
+        if(!json.split) {
+          return setSplit(recomputeSplit(choices))
+        }
+        return setSplit(json.split)
+      })
       .then(_ => setLoading(false))
       .catch(error => console.log('error', error));
   }
 
   const handleRowClick = (row, marked) => {
     // TODO: assert days > 0 
-    // rest.current[row-1] = marked // (row-1 because in the API days start from 0)
     setOpenDialog(true)
     selectedRow.current = row
   }
 
+  function recomputeSplit(choices) {
+    let newSplit = Array(state.days).fill().map(() => [])
+    for (const day in choices) {
+      newSplit[day] = Array.from(choices[day])
+    }
+    return newSplit
+  }
+
   const handleCloseDialog = (value) => {
     // TODO: assert days > 0 
-    // TODO: handle rest days
     setOpenDialog(false)
 
-    if (value) {
-      let newChoices = choices
-      let newValue = mapGroupInv(value).toUpperCase()
-      let row = selectedRow.current - 1
+    if (!value) {
+      return
+    }
 
-      if (!newChoices[row]) {
-        newChoices[row] = new Set()
-      }
-      if (rotations(newValue, newChoices.map( e => Array.from(e) )) < 3) {
-        newChoices[row].add(newValue)
+    let row = selectedRow.current - 1
+    let newChoices = choices
 
-        let newSplit = Array(state.days).fill().map(() => [])
-        for (const day in choices) {
-          newSplit[day] = Array.from(newChoices[day])
-        }
-        setSplit(newSplit)
-        setChoices(newChoices)
-      }
+    if (!newChoices[row]) {
+      newChoices[row] = new Set()
+    }
+
+    if (value === 'rest') {
+      rest.current[row] = true
+      newChoices[row] = new Set()
+      setChoices(newChoices)
+      setSplit(recomputeSplit(newChoices))
+      return
+    }
+
+    let newValue = mapGroupInv(value).toUpperCase()
+
+    if (rotations(newValue, newChoices.map( e => Array.from(e) )) < 3) {
+      rest.current[row] = false
+      newChoices[row].add(newValue)
+      setSplit(recomputeSplit(newChoices))
+      setChoices(newChoices)
     }
 
   }
@@ -299,7 +319,7 @@ function Form(props) {
         <CircularProgress color="secondary"/>
       </Backdrop>
 
-      <SplitTable handleClick={handleRowClick} days={state.days} split={split}/>
+      <SplitTable rest={rest.current} handleClick={handleRowClick} days={state.days} split={split}/>
 
     </div>
   );

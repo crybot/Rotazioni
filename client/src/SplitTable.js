@@ -20,8 +20,7 @@ function SplitCell(props) {
   const theme = useTheme();
 
   return (
-    /* <td style={{backgroundColor: (props.marked ? theme.palette.secondary.main : '')}}> */
-    <td style={{backgroundColor: ''}}> 
+    <td style={{backgroundColor: (props.rest ? theme.palette.secondary.main : '')}}>
       <Typography variant="body1" align="center">
         {props.groups.join(' & ')} 
       </Typography>
@@ -31,10 +30,8 @@ function SplitCell(props) {
 
 function SplitRow(props) {
   const classes = useStyles()
-  const [marked, setMarked] = useState(false)
   const handleClick = () => {
-    setMarked(!marked)
-    props.handleClick(props.row, !marked)
+    props.handleClick(props.row)
   }
   const cols = props.cols
   const n = props.row
@@ -54,10 +51,10 @@ function SplitRow(props) {
           {weekday(n)}
         </Typography>
       </td>
-      <SplitCell marked={marked} groups={cols[0]}/>
-      <SplitCell marked={marked} groups={cols[1]}/>
-      <SplitCell marked={marked} groups={cols[2]}/>
-      <SplitCell marked={marked} groups={[]}/>
+      <SplitCell rest={props.rest} groups={cols[0]}/>
+      <SplitCell rest={props.rest} groups={cols[1]}/>
+      <SplitCell rest={props.rest} groups={cols[2]}/>
+      <SplitCell rest={props.rest} groups={[]}/>
     </tr>
   );
 }
@@ -81,7 +78,7 @@ function SplitTable(props) {
           }
         }
       }
-      return (<SplitRow key={n.toString()} handleClick={props.handleClick} row={n} cols={cols} />);
+      return (<SplitRow rest={props.rest ? props.rest[n-1] : false} key={n.toString()} handleClick={props.handleClick} row={n} cols={cols} />);
     });
 
     return rows
