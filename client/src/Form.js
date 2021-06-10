@@ -209,7 +209,7 @@ function Form(props) {
   }
 
   function recomputeSplit(choices) {
-    let newSplit = Array(state.days).fill().map(() => [])
+    let newSplit = Array(state.days).fill([]);
     for (const day in choices) {
       newSplit[day] = Array.from(choices[day])
     }
