@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Checkbox, Typography, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';

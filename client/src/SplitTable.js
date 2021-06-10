@@ -1,5 +1,5 @@
-import { TableRow, Typography } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import {TableRow, Typography} from '@material-ui/core';
+import {useTheme} from '@material-ui/core/styles';
 
 function weekday(n) {
   return {0: 'LUNEDÌ', 1: 'MARTEDÌ', 2: 'MERCOLEDÌ',                          
@@ -62,27 +62,25 @@ function SplitTable(props) {
     const numbers = Array.from({length:props.days},(v,k)=>k+1)
     const split = props.split
 
-    const rows = numbers.map((n) => {
-      var cols = [[], [], []]
+    return numbers.map((n) => {
+      const cols = [[], [], []];
 
       if (split != null && n <= split.length) {
-        for (var group in groups) {
-          if (split[n-1].includes(group)) {
+        for (const group in groups) {
+          if (split[n - 1].includes(group)) {
             cols[groups[group]].push(mapGroup(group))
             groups[group] += 1
           }
         }
       }
       return (<SplitRow
-        key={n.toString()}
-        selected={props.selectedRow === n}
-        rest={props.rest ? props.rest[n-1] : false}
-        handleClick={props.handleClick}
-        row={n}
-        cols={cols} />);
-    });
-
-    return rows
+          key={n.toString()}
+          selected={props.selectedRow === n}
+          rest={props.rest ? props.rest[n - 1] : false}
+          handleClick={props.handleClick}
+          row={n}
+          cols={cols}/>);
+    })
   }
 
   return (

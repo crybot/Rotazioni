@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { Collapse, Typography, Backdrop, CircularProgress, Button } from '@material-ui/core';
 import { Icon, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { InputGroup, IntegerField } from './InputGroup'
+import InputGroup, { IntegerField } from './InputGroup'
 import Alert from '@material-ui/lab/Alert';
 import SplitTable from './SplitTable'
 import ChoiceDialog from './ChoiceDialog'
@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     width: "12%",
     height: "8ch"
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
   },
 }));
 
@@ -46,8 +50,8 @@ const defaultPreferences = {
 }
 
 function makeDefaultPreference(group) {
-  var preference = {}
-  for (var other of defaultPreferences[group]) {
+  const preference = {};
+  for (const other of defaultPreferences[group]) {
     const name = group + '_preference_' + other 
     preference[name] = true
   }
@@ -101,12 +105,11 @@ const stateGroupKeys = {
 
 function getGroup(state, group) {
   const keys = stateGroupKeys[group]
-  const filtered = Object.fromEntries(
-    Object.entries(state).filter(
-      ([key, val]) => keys.includes(key)
-    )
-  );
-  return filtered
+  return Object.fromEntries(
+      Object.entries(state).filter(
+          ([key, val]) => keys.includes(key)
+      )
+  )
 }
 
 
@@ -128,8 +131,8 @@ function Form(props) {
       return 0
     }
 
-    var n = 0
-    for (var day of split) {
+    let n = 0;
+    for (const day of split) {
       if (day) {
         n = day.includes(group) ? n + 1 : n
       }
@@ -169,14 +172,14 @@ function Form(props) {
       return
     }
 
-    var form_data = new FormData();
-    for ( var key in state ) {
+    const form_data = new FormData();
+    for (const key in state ) {
       form_data.append(key, state[key]);
     }
     form_data.append('rest', JSON.stringify(rest.current))
     form_data.append('choices', JSON.stringify(choices.map(e => Array.from(e))))
 
-    var requestOptions = {
+    const requestOptions = {
       method: 'POST',
       body: form_data,
       redirect: 'follow'
@@ -206,7 +209,7 @@ function Form(props) {
   }
 
   function recomputeSplit(choices) {
-    let newSplit = Array(state.days).fill().map(() => [])
+    let newSplit = Array(state.days).fill([]);
     for (const day in choices) {
       newSplit[day] = Array.from(choices[day])
     }
