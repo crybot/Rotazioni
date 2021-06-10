@@ -1,7 +1,7 @@
-import { Icon, IconButton, Paper, Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
+import { Icon, Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
 
 export default function SimpleDialog(props) {
-  const { onClose, selectedValue, open, items } = props;
+  const { onClose, open, items } = props;
 
   const handleClose = () => {
     onClose(null);
