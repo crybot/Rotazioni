@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
     width: "12%",
     height: "8ch"
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 // TODO: export
