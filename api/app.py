@@ -65,6 +65,7 @@ def solve_api():
     delts.set_split_preference(preferences['delts'])
 
     rest = json.loads(args['rest'])
+    cyclic_split = args['cyclic_split'].lower() == 'true'
 
     choices = json.loads(args['choices'])
     # choices = [[g for g in choice] for choice in choices]
@@ -78,7 +79,8 @@ def solve_api():
             rest,
             choices,
             int(args['max_consecutive_work']),
-            int(args['max_consecutive_rest']))
+            int(args['max_consecutive_rest']),
+            cyclic_split)
 
     return {'split': scheduler.solve()}
 

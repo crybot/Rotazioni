@@ -5,14 +5,18 @@ def weekday(day):
             3: 'THURSDAY', 4: 'FRIDAY', 5: 'SATURDAY', 
             6: 'SUNDAY'}[day % 7]
 
-def crange(start, end, modulo):
-    if start > end:
+def crange(start, end, modulo, cyclic=True):
+    if not cyclic:
+        return range(start, min(end, modulo))
+
+    mod_end = end % modulo
+    if start > mod_end:
         while start < modulo:
             yield start
             start += 1
         start = 0
 
-    while start < end:
+    while start < mod_end:
         yield start
         start += 1
 
@@ -30,7 +34,7 @@ class MuscleGroup:
 
 class SplitScheduler:
     def __init__(self, groups, days, rest_days, rest=[], choices=[],
-            max_consecutive_work=3, max_consecutive_rest=2):
+            max_consecutive_work=3, max_consecutive_rest=2, cyclic_split=True):
         self.groups = groups
         self.days = range(days)
         self.rest_days = rest_days
@@ -38,6 +42,7 @@ class SplitScheduler:
         self.choices = choices
         self.max_consecutive_work = max_consecutive_work
         self.max_consecutive_rest = max_consecutive_rest
+        self.cyclic_split = cyclic_split
         self._setup_variables()
         self._setup_constraints()
 
@@ -85,8 +90,8 @@ class SplitScheduler:
 
         # Max consecutive days of training/resting constraints
         for day in self.days:
-            maxwork = crange(day, (day + self.max_consecutive_work + 1) % len(self.days), len(self.days))
-            maxrest = crange(day, (day + self.max_consecutive_rest + 1) % len(self.days), len(self.days))
+            maxwork = crange(day, (day + self.max_consecutive_work + 1), len(self.days), self.cyclic_split)
+            maxrest = crange(day, (day + self.max_consecutive_rest + 1), len(self.days), self.cyclic_split)
             model += sum( [ (1 - self.Y[d]) for d in maxwork ] ) <= self.max_consecutive_work
             model += sum( [ self.Y[d] for d in maxrest ] ) <= self.max_consecutive_rest
 
@@ -103,8 +108,8 @@ class SplitScheduler:
         # Constraints determining the minimum and maximum number of days between two consecutive muscle group workouts
         for group in self.groups:
             for day in self.days:
-                maxdays = crange(day, (day + group.rest_max + 1) % len(self.days), len(self.days))
-                mindays = crange(day, (day + group.rest_min + 1) % len(self.days), len(self.days))
+                maxdays = crange(day, (day + group.rest_max + 1), len(self.days), self.cyclic_split)
+                mindays = crange(day, (day + group.rest_min + 1), len(self.days), self.cyclic_split)
 
                 model += sum( [ self.X[group.name, d] for d in maxdays ] ) >= 1
                 model += sum( [ self.X[group.name, d] for d in mindays ] ) <= 1
