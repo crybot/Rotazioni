@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useRef } from 'react';
 import { Collapse, Typography, Backdrop, CircularProgress, Button } from '@material-ui/core';
-import { Icon, IconButton } from '@material-ui/core';
+import { FormControlLabel, Checkbox, Icon, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import InputGroup, { IntegerField } from './InputGroup'
 import Alert from '@material-ui/lab/Alert';
@@ -63,6 +63,7 @@ const defaultState = {
   rest_days: 5,
   max_consecutive_work: 3,
   max_consecutive_rest: 2,
+  cyclic_split: true,
 
   chest_rest_min: 3,
   chest_rest_max: 10,
@@ -313,6 +314,17 @@ function Form(props) {
           variant="standard"
           onError={handleError}
           onChange={handleChange}/>
+        <FormControlLabel 
+          control={
+            <Checkbox 
+              name='cyclic_split'
+              checked={state.cyclic_split}
+              onChange={handleChange}
+            />
+          }
+          // disabled={state.days % 7 !== 0}
+          labelPlacement="end"
+          label={<Typography variant="body1">Split ciclica</Typography>}/>
       </form>
       <InputGroup 
         name="chest"
