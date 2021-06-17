@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Checkbox, Typography, Grid, TextField } from '@material-ui/core';
+import { Tooltip, Checkbox, Typography, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PreferenceList from './PreferenceList'
+import InputTooltip from './InputTooltip'
 
 const useStyles = makeStyles((theme) => ({
   grid: {
     width: '90%',
     margin: '0px',
   },
-  textField: {
-  },
 }));
-
 // TODO: export
 function mapGroup(group) {
   return {
@@ -57,15 +55,17 @@ function IntegerField(props) {
   }
 
   return (
-    <TextField
-      className={classes.textField}
-      name={props.name}
-      error={state.error}
-      value={props.value}
-      label={props.label}
-      variant={props.variant || "outlined"}
-      onChange={handleChange}/>);
-
+    <InputTooltip title={props.tooltip}>
+      <TextField
+        className={classes.textField}
+        name={props.name}
+        error={state.error}
+        value={props.value}
+        label={props.label}
+        variant={props.variant || "outlined"}
+        onChange={handleChange}/>
+    </InputTooltip>
+  );
 }
 
 export default function InputGroup(props) {
@@ -85,6 +85,7 @@ export default function InputGroup(props) {
 
       <Grid item xs={12} md={2}>
         <IntegerField
+          tooltip="Recupero minimo (in giorni) tra due sessioni consecutive del gruppo muscolare"
           onError={props.onError}
           name={props.name + '_rest_min'}
           value={props.value[props.name + '_rest_min']} label="Min Recupero"
@@ -94,6 +95,7 @@ export default function InputGroup(props) {
 
       <Grid item xs={12} md={2}>
         <IntegerField
+          tooltip="Recupero massimo (in giorni) tra due sessioni consecutive del gruppo muscolare"
           onError={props.onError}
           name={props.name + '_rest_max'} 
           value={props.value[props.name + '_rest_max']} label="Max Recupero"
@@ -102,6 +104,7 @@ export default function InputGroup(props) {
 
       <Grid item xs={12} md={2}>
         <IntegerField
+          tooltip="Numero di rotazioni del gruppo muscolare da eseguire all'interno del microciclo"
           onError={props.onError}
           name={props.name + '_rotations'} 
           value={props.value[props.name + '_rotations']} label="Rotazioni"
@@ -110,20 +113,24 @@ export default function InputGroup(props) {
           onChange={props.onChange}/>
       </Grid>
       <Grid item xs={12} md={2}>
-        <FormControlLabel 
-          /* style={{marginBottom: "22px"}} /* hack to make the checkbox centered */
-          control={
-            <Checkbox 
-              name={props.name + '_after_rest'}
-              checked={props.value[props.name + '_after_rest']}
-              onChange={props.onChange}
-            />
-          }
-          labelPlacement="end"
-          label={<Typography variant="body1">Dopo Rest Day</Typography>}/>
+        <InputTooltip
+          title="Specifica se il gruppo muscolare deve essere eseguito soltanto dopo un giorno di riposo">
+          <FormControlLabel 
+            /* style={{marginBottom: "22px"}} /* hack to make the checkbox centered */
+            control={
+              <Checkbox 
+                name={props.name + '_after_rest'}
+                checked={props.value[props.name + '_after_rest']}
+                onChange={props.onChange}
+              />
+            }
+            labelPlacement="end"
+            label={<Typography variant="body1">Dopo Rest Day</Typography>}/>
+        </InputTooltip>
       </Grid>
       <Grid item xs={12} md={3}>
         <PreferenceList
+          tooltip="Specifica l'insieme di altri distretti con cui è possibile allenare il gruppo muscolare"
           name={props.name + '_preference'}
           value={props.value}
           onChange={props.onChange}

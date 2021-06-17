@@ -7,6 +7,7 @@ import InputGroup, { IntegerField } from './InputGroup'
 import Alert from '@material-ui/lab/Alert';
 import SplitTable from './SplitTable'
 import ChoiceDialog from './ChoiceDialog'
+import InputTooltip from './InputTooltip'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -288,6 +289,7 @@ function Form(props) {
       <form className={classes.root} noValidate autoComplete="off">
         <IntegerField
           name="days" 
+          tooltip="Numero di giorni componenti il microciclo"
           value={state.days}
           label="Giorni Microciclo"
           variant="standard"
@@ -295,6 +297,7 @@ function Form(props) {
           onChange={handleChange}/>
         <IntegerField 
           name="rest_days"
+          tooltip="Numero di giorni di recupero da effettuare all'interno del microciclo"
           value={state.rest_days}
           label="Giorni di Riposo"
           variant="standard"
@@ -302,6 +305,7 @@ function Form(props) {
           onChange={handleChange}/>
         <IntegerField
           name="max_consecutive_work"
+          tooltip="Massimo numero di allenamenti consecutivi effettuabili all'interno del microciclo"
           value={state.max_consecutive_work}
           label="Max Workout Consecutivi" 
           variant="standard"
@@ -309,22 +313,30 @@ function Form(props) {
           onChange={handleChange}/>
         <IntegerField
           name="max_consecutive_rest"
+          tooltip="Massimo numero di giorni di riposo effettuabili all'interno del microciclo"
           value={state.max_consecutive_rest}
           label="Max Riposo Consecutivi"
           variant="standard"
           onError={handleError}
           onChange={handleChange}/>
-        <FormControlLabel 
-          control={
-            <Checkbox 
-              name='cyclic_split'
-              checked={state.cyclic_split}
-              onChange={handleChange}
-            />
-          }
-          // disabled={state.days % 7 !== 0}
-          labelPlacement="end"
-          label={<Typography variant="body1">Split ciclica</Typography>}/>
+        <InputTooltip
+          title={
+            "Specifica se la split deve essere ripetuta più volte: " +
+              "se la casella viene spuntata, l'ultimo " +
+              "giorno del microciclo sarà considerato precedente al primo."
+          }>
+          <FormControlLabel 
+            control={
+              <Checkbox 
+                name='cyclic_split'
+                checked={state.cyclic_split}
+                onChange={handleChange}
+              />
+            }
+            // disabled={state.days % 7 !== 0}
+            labelPlacement="end"
+            label={<Typography variant="body1">Split Ciclica</Typography>}/>
+        </InputTooltip>
       </form>
       <InputGroup 
         name="chest"
