@@ -1,5 +1,6 @@
 import {TableRow, Typography} from '@material-ui/core';
 import {useTheme} from '@material-ui/core/styles';
+import InputTooltip from './InputTooltip'
 
 function weekday(n) {
   return {0: 'LUNEDÌ', 1: 'MARTEDÌ', 2: 'MERCOLEDÌ',                          
@@ -38,20 +39,26 @@ function SplitRow(props) {
   const n = props.row
 
   return (
-    <TableRow key={n.toString()}
-      hover
-      selected={props.selected}
-      onClick={handleClick}>
-      <td align="left"> 
-        <Typography variant="body1">
-          {weekday(n)}
-        </Typography>
-      </td>
-      <SplitCell rest={props.rest} groups={cols[0]}/>
-      <SplitCell rest={props.rest} groups={cols[1]}/>
-      <SplitCell rest={props.rest} groups={cols[2]}/>
-      <SplitCell rest={props.rest} groups={[]}/>
-    </TableRow>
+    <InputTooltip
+      enterDelay={600}
+      enterNextDelay={600}
+      placement="top"
+      title="Clicca sulla riga selezionata per impostare un vincolo">
+      <TableRow key={n.toString()}
+        hover
+        selected={props.selected}
+        onClick={handleClick}>
+        <td align="left"> 
+          <Typography variant="body1">
+            {weekday(n)}
+          </Typography>
+        </td>
+        <SplitCell rest={props.rest} groups={cols[0]}/>
+        <SplitCell rest={props.rest} groups={cols[1]}/>
+        <SplitCell rest={props.rest} groups={cols[2]}/>
+        <SplitCell rest={props.rest} groups={[]}/>
+      </TableRow>
+    </InputTooltip>
   );
 }
 
@@ -74,12 +81,12 @@ function SplitTable(props) {
         }
       }
       return (<SplitRow
-          key={n.toString()}
-          selected={props.selectedRow === n}
-          rest={props.rest ? props.rest[n - 1] : false}
-          handleClick={props.handleClick}
-          row={n}
-          cols={cols}/>);
+        key={n.toString()}
+        selected={props.selectedRow === n}
+        rest={props.rest ? props.rest[n - 1] : false}
+        handleClick={props.handleClick}
+        row={n}
+        cols={cols}/>);
     })
   }
 
@@ -87,7 +94,7 @@ function SplitTable(props) {
     <table align="center">
       <tbody>
         <tr> 
-          <th> </th> {/* Day */}
+          <th> </th>{/* Day */}
           <th>
             <Typography variant="body1">
               ROTAZIONE I 

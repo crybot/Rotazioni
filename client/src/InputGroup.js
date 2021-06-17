@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Tooltip, Checkbox, Typography, Grid, TextField } from '@material-ui/core';
+import { Checkbox, Typography, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PreferenceList from './PreferenceList'
 import InputTooltip from './InputTooltip'
