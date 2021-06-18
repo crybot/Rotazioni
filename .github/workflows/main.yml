@@ -24,12 +24,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
       # Runs a set of commands using the runners shell
-      - env:
+      - name: Deploy in production
+        env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
-      - name: Deploy in production
         run: |
           'command -v ssh-agent >/dev/null || ( apt-get update && apt-get install openssh-client )'
           eval $(ssh-agent -s)
