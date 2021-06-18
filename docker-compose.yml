@@ -6,8 +6,8 @@ services:
     environment:
       - FLASK_ENV=production
       - FLASK_APP=app.py
-        # ports:
-        # - "5000:5000"
+    ports:
+      - "5000:5000"
 
   client:
     build: client
