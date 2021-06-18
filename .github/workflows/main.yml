@@ -38,4 +38,4 @@ jobs:
           echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
           echo Deploying application
-          ssh crybot@openglass.it 'sudo /home/crybot/workout-split-optimizer/deploy_prod.sh'
+          ssh crybot@openglass.it 'cd workout-split-optimizer && sudo ./deploy_prod.sh'
