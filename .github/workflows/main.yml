@@ -25,7 +25,7 @@ jobs:
       - name: Build
         run: |
           echo Building application through docker-compose
-          sudo ./build_prod.sh
+          ./build_prod.sh
 
   deploy:
     # The type of runner that the job will run on
@@ -39,4 +39,4 @@ jobs:
       - name: Deploy in production
         run: |
           echo Deploying application
-          sudo ./deploy_prod.sh
+          ./deploy_prod.sh
