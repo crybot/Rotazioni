@@ -28,6 +28,7 @@ jobs:
           sudo ./build_prod.sh
 
   deploy:
+    needs: build
     # The type of runner that the job will run on
     runs-on: self-hosted
 
