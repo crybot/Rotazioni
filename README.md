@@ -1,16 +1,14 @@
-# Linear Programming Workout Split Optimizer
+# Rotazioni: a linear programming workout split optimizer
 
 ## Dependencies
-- Flask
-- Material-UI
+Dependencies for the frontend and backend are respectively listed in `client/package.json` and `api/requirements.txt`.\
+A self-contained docker installation is provided.
 
-## Installation
-To install Flask, it is advisable to first setup a virtual python environment inside the project directory:\
-`python3 -m venv venv` and then 
-`source venv/bin/activate` to enter it.\
-Then run `pip install Flask` to install Flask.\
-To install Javascript dependencies just enter `cd  webapp` and run `npm install`.
+## Deployment (Docker)
+Make sure you have a docker service running on your machine.\
+Then run `./build_prod.sh && ./deploy_prod.sh` to create and launch the docker container. The backend will be listening port 5000,
+while the frontend will be available through port 80.
 
-## Deployment
-To run the Flask server, simply run `flask run` inside your virtual environment inside the project's root directory.\
-Then, to launch the webapp locally, launch `npm start`.
+## Pull Requests
+If you want to contribute to the project, you can do so by solving one of the many open issues or by creating new ones.\
+When proposing a pull request, make sure you do so on the `production` branch, so that when merged, the change will trigger the CI/CD pipeline.
