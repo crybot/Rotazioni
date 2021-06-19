@@ -1,5 +1,7 @@
 # Rotazioni: a linear programming workout split optimizer
 
+![Application screenshot](client/public/rotazioni.png)
+
 ## Dependencies
 Dependencies for the frontend and backend are respectively listed in `client/package.json` and `api/requirements.txt`.\
 A self-contained docker installation is provided.
