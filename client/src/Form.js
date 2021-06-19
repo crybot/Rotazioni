@@ -8,7 +8,7 @@ import Alert from '@material-ui/lab/Alert';
 import SplitTable from './SplitTable'
 import ChoiceDialog from './ChoiceDialog'
 import InputTooltip from './InputTooltip'
-import ReactToPdf from 'react-to-pdf'
+import ReactToPrint from 'react-to-print';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -262,13 +262,7 @@ function Form(props) {
 
   }
 
-  const pdfOptions = {
-    orientation: 'landscape',
-    // unit: 'in',
-    // format: [4,2]
-  };
-
-
+  const componentRef = useRef();
 
   return (
     <div>
@@ -385,28 +379,26 @@ function Form(props) {
       </Button>
       <br/>
 
-      <ReactToPdf options={pdfOptions} filename='split.pdf' y={50}>
-        {({toPdf, targetRef}) =>  (
-          <div>
-            <div ref={targetRef}>
-              <SplitTable
-                selectedRow={selectedRow.current}
-                rest={rest.current}
-                handleClick={handleRowClick}
-                days={state.days}
-                split={split}
-                ref={targetRef}/>
-            </div>
-            <Button
-              onClick={toPdf}
-              align="left" variant="outlined" className={classes.button}>
-              <Typography>
-                <strong>Salva PDF</strong>
-              </Typography>
-            </Button>
-          </div>
-        )}
-      </ReactToPdf>
+      <div ref={componentRef}>
+        <SplitTable
+          selectedRow={selectedRow.current}
+          rest={rest.current}
+          handleClick={handleRowClick}
+          days={state.days}
+          split={split}
+        />
+      </div>
+      <ReactToPrint
+        trigger={() => 
+          <Button
+            align="left" variant="outlined" className={classes.button}>
+            <Typography>
+              <strong>Salva PDF</strong>
+            </Typography>
+          </Button>
+        }
+        content={() => componentRef.current}
+      />
 
       <ChoiceDialog items={groups.concat(['rest'])} onClose={handleCloseDialog} open={openDialog}>
       </ChoiceDialog>
