@@ -7,7 +7,8 @@ def weekday(day):
 
 def crange(start, end, modulo, cyclic=True):
     if not cyclic:
-        return range(start, min(end, modulo))
+        yield from range(start, min(end, modulo))
+        return
 
     mod_end = end % modulo
     if start > mod_end:
@@ -108,8 +109,11 @@ class SplitScheduler:
         # Constraints determining the minimum and maximum number of days between two consecutive muscle group workouts
         for group in self.groups:
             for day in self.days:
-                maxdays = crange(day, (day + group.rest_max + 1), len(self.days), self.cyclic_split)
-                mindays = crange(day, (day + group.rest_min + 1), len(self.days), self.cyclic_split)
+                maxdays = list(crange(day, (day + group.rest_max + 1), len(self.days), self.cyclic_split))
+                mindays = list(crange(day, (day + group.rest_min + 1), len(self.days), self.cyclic_split))
+
+                if not self.cyclic_split and len(maxdays) <= group.rest_max:
+                    maxdays = []
 
                 model += sum( [ self.X[group.name, d] for d in maxdays ] ) >= 1
                 model += sum( [ self.X[group.name, d] for d in mindays ] ) <= 1
