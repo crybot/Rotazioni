@@ -2,7 +2,7 @@ import './App.css';
 import { IconButton, Icon, Grid, CssBaseline, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Form from './Form'
 import Copyright from './Copyright'
 
@@ -51,9 +51,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+function usePersistedState(key, defaultValue) {
+  const [state, setState] = useState(
+    JSON.parse(localStorage.getItem(key)) || defaultValue
+  );
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [key, state]);
+  return [state, setState];
+}
+
+
 function App() {
   const classes = useStyles();
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = usePersistedState('darkMode', false)
 
   defaultTheme.palette.type = darkMode ? 'dark' : 'light'
   const darkTheme = createMuiTheme(defaultTheme);
