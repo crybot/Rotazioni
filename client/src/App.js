@@ -1,11 +1,12 @@
 import './App.css';
-import { Typography } from '@material-ui/core';
+import { IconButton, Icon, Grid, CssBaseline, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { useState } from 'react'
 import Form from './Form'
 import Copyright from './Copyright'
 
-const theme = createMuiTheme({
+var defaultTheme = {
   typography: {
     fontFamily: [
       'Oswald',
@@ -14,7 +15,7 @@ const theme = createMuiTheme({
   palette: {
     secondary: {
       main: '#c01f25', // shade of dark red
-    }
+    },
   },
   overrides: {
     MuiCheckbox: {
@@ -33,12 +34,11 @@ const theme = createMuiTheme({
       // InputLabelProps: {style: {fontSize: 15}}, // font size of input label
     },
   },
+}
 
-});
-
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   title1: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.secondary.dark,
     fontSize: '30px',
     marginTop: '0',
     textAlign: 'right',
@@ -46,30 +46,49 @@ const useStyles = makeStyles({
   },
 
   title2: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.secondary.dark,
     fontSize: '60px',
   },
-});
+}));
 
 function App() {
   const classes = useStyles();
+  const [darkMode, setDarkMode] = useState(false)
+
+  defaultTheme.palette.type = darkMode ? 'dark' : 'light'
+  const darkTheme = createMuiTheme(defaultTheme);
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <header className="App-header">
-          <Typography component="span">
-            <h1 className={classes.title1}> GENERATORE DI SPLIT </h1>
-            <h1 className={classes.title2}> ROTAZIONI </h1>
-          </Typography>
-        </header>
-        <center>
-          <Form/>
-        </center>
-        <footer>
-          <Copyright/>
-        </footer>
-      </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline>
+        <div className="App">
+          <header className="App-header">
+            <Grid container alignItems="center">
+              <Grid item xs={1} align="left">
+                <IconButton color="primary" onClick={() => setDarkMode(!darkMode)}>
+                  <Icon>
+                    {darkMode ? "nights_stay" : "brightness_4"}
+                  </Icon>
+                </IconButton>
+              </Grid>
+              <Grid item xs={11}>
+                <Typography component="span">
+                  <h1 className={classes.title1}> GENERATORE DI SPLIT </h1>
+                </Typography>
+              </Grid>
+            </Grid>
+            <Typography component="span">
+              <h1 className={classes.title2}> ROTAZIONI </h1>
+            </Typography>
+          </header>
+          <center>
+            <Form/>
+          </center>
+          <footer>
+            <Copyright/>
+          </footer>
+        </div>
+      </CssBaseline>
     </ThemeProvider>
   );
 }

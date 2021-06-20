@@ -2,10 +2,6 @@
   text-align: center;
 }
 
-.Checkbox {
-  transform: 'scaleY(0.1)';
-}
-
 #menu {
   position: fixed;
   top: 0;
