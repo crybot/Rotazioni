@@ -53,9 +53,15 @@ const defaultPreferences = {
 
 function makeDefaultPreference(group) {
   const preference = {};
-  for (const other of defaultPreferences[group]) {
+  for (const other of groups.map(mapGroupInv)) {
+    if (other === group) continue
     const name = group + '_preference_' + other 
-    preference[name] = true
+    if (defaultPreferences[group].includes(other)) {
+      preference[name] = true
+    }
+    else {
+      preference[name] = false
+    }
   }
   return preference
 }
@@ -109,9 +115,9 @@ const stateGroupKeys = {
 function getGroup(state, group) {
   const keys = stateGroupKeys[group]
   return Object.fromEntries(
-      Object.entries(state).filter(
-          ([key, val]) => keys.includes(key)
-      )
+    Object.entries(state).filter(
+      ([key, val]) => keys.includes(key)
+    )
   )
 }
 
@@ -150,7 +156,14 @@ function Form(props) {
   }
 
   const handleChange = (event) => {
-    console.log(event.target)
+    var refName = event.target.value
+    var refValue = event.target.name
+    if (event.target.type === 'checkbox'
+      && event.target.name.includes('preference')) {
+      refName = event.target.name.split('_').reverse().join('_')
+      refValue = event.target.checked
+    }
+
     setState({
       // Computed property names
       // keys of the objects are computed dynamically
@@ -158,7 +171,10 @@ function Form(props) {
       [event.target.name] : (event.target.type === 'checkbox'
         ? event.target.checked // `value` is not defined for Checkbox
         : event.target.value),
+      [refName] : refValue
     })
+
+    console.log(state)
   }
 
   // TODO: compare performance vs object destructuring (c.f. handleChange)
