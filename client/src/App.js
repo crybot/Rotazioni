@@ -78,7 +78,7 @@ function App() {
       <CssBaseline>
         <div className="App">
           <header className="App-header">
-            <Grid container alignItems="center" spacing={0}>
+            <Grid container spacing={0}>
               <Grid item xs={1} align="left">
                 <IconButton className={classes.button} onClick={() => setDarkMode(!darkMode)}>
                   <Icon>
