@@ -36,21 +36,6 @@ var defaultTheme = {
   },
 }
 
-const useStyles = makeStyles(theme => ({
-  title1: {
-    color: theme.palette.secondary.dark,
-    fontSize: '30px',
-    marginTop: '0',
-    textAlign: 'right',
-    paddingRight: '3vw',
-  },
-
-  title2: {
-    color: theme.palette.secondary.dark,
-    fontSize: '60px',
-  },
-}));
-
 function usePersistedState(key, defaultValue) {
   const [state, setState] = useState(
     JSON.parse(localStorage.getItem(key)) || defaultValue
@@ -63,20 +48,39 @@ function usePersistedState(key, defaultValue) {
 
 
 function App() {
-  const classes = useStyles();
   const [darkMode, setDarkMode] = usePersistedState('darkMode', false)
 
   defaultTheme.palette.type = darkMode ? 'dark' : 'light'
-  const darkTheme = createMuiTheme(defaultTheme);
+  const theme = createMuiTheme(defaultTheme);
+  const useStyles = makeStyles({
+    title1: {
+      color: theme.palette.secondary.main,
+      fontSize: '30px',
+      marginTop: '0',
+      textAlign: 'right',
+      paddingRight: '3vw',
+    },
+
+    title2: {
+      color: theme.palette.secondary.main,
+      fontSize: '60px',
+    },
+
+    button: {
+      color: '#565656',
+    }
+  });
+  const classes = useStyles();
+
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline>
         <div className="App">
           <header className="App-header">
-            <Grid container alignItems="center">
+            <Grid container alignItems="center" spacing={0}>
               <Grid item xs={1} align="left">
-                <IconButton color="primary" onClick={() => setDarkMode(!darkMode)}>
+                <IconButton className={classes.button} onClick={() => setDarkMode(!darkMode)}>
                   <Icon>
                     {darkMode ? "nights_stay" : "brightness_4"}
                   </Icon>
