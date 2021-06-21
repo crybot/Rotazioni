@@ -1,4 +1,4 @@
-import {Paper, TableRow, Typography} from '@material-ui/core';
+import {Grid, Paper, TableRow, Typography} from '@material-ui/core';
 import {useTheme} from '@material-ui/core/styles';
 import InputTooltip from './InputTooltip'
 
@@ -91,36 +91,41 @@ function SplitTable(props) {
   }
 
   return (
-    <Paper elevation={0} style={{marginTop: "6vh", marginBottom: "5vh", width: "65%"}}>
-      <table align="center">
-        <tbody>
-          <tr> 
-            <th> </th>{/* Day */}
-            <th>
-              <Typography variant="body1">
-                ROTAZIONE I 
-              </Typography>
-            </th>
-            <th>
-              <Typography variant="body1">
-                ROTAZIONE II
-              </Typography>
-            </th>
-            <th>
-              <Typography variant="body1">
-                ROTAZIONE III
-              </Typography>
-            </th>
-            <th>
-              <Typography variant="body1">
-                RICHIAMO
-              </Typography>
-            </th>
-          </tr>
-          {makeRows()}
-        </tbody>
-      </table>
-    </Paper>
+    <Grid container spacing={0} justify="center" alignItem="center">
+      <Grid item xs={11} md={8}>
+        <Paper elevation={0} style={{width: '100%', marginTop: "6vh", marginBottom: "5vh"}}>
+          <table>
+            <tbody>
+              <tr> 
+                <th> </th>{/* Day */}
+                <th>
+                  <Typography variant="body1">
+                    ROTAZIONE I 
+                  </Typography>
+                </th>
+                <th>
+                  <Typography variant="body1">
+                    ROTAZIONE II
+                  </Typography>
+                </th>
+                <th>
+                  <Typography variant="body1">
+                    ROTAZIONE III
+                  </Typography>
+                </th>
+                <th>
+                  <Typography variant="body1">
+                    RICHIAMO
+                  </Typography>
+                </th>
+              </tr>
+              {makeRows()}
+            </tbody>
+          </table>
+        </Paper>
+      </Grid>
+    </Grid>
+
   );
 
 }
