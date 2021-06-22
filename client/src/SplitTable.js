@@ -21,9 +21,10 @@ function mapGroup(group) {
 
 function SplitCell(props) {
   const theme = useTheme();
+  const color = theme.palette.type === 'dark' ? 'dark' : 'main'
 
   return (
-    <td style={{backgroundColor: (props.rest ? theme.palette.secondary.main : '')}}>
+    <td style={{backgroundColor: (props.rest ? theme.palette.secondary[color] : '')}}>
       <Typography variant="body1" align="center">
         {props.groups.join(' & ')} 
       </Typography>
