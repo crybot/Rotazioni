@@ -57,7 +57,7 @@ function SplitRow(props) {
         <SplitCell rest={props.rest} groups={cols[0]}/>
         <SplitCell rest={props.rest} groups={cols[1]}/>
         <SplitCell rest={props.rest} groups={cols[2]}/>
-        <SplitCell rest={props.rest} groups={[]}/>
+        <SplitCell rest={props.rest} groups={cols[3]}/>
       </TableRow>
     </InputTooltip>
   );
@@ -69,15 +69,25 @@ function SplitTable(props) {
     const groups = {'CHEST': 0, 'BACK':0, 'LEGS':0, 'ARMS':0, 'DELTS':0}
     const numbers = Array.from({length:props.days},(v,k)=>k+1)
     const split = props.split
+    const richiami = props.richiami
 
     return numbers.map((n) => {
-      const cols = [[], [], []];
+      const cols = [[], [], [], []];
 
       if (split != null && n <= split.length) {
         for (const group in groups) {
           if (split[n - 1].includes(group)) {
             cols[groups[group]].push(mapGroup(group))
             groups[group] += 1
+          }
+        }
+      }
+      if (richiami != null && n <= richiami.length) {
+        console.log(richiami)
+        console.log(n-1)
+        for (const group in groups) {
+          if (richiami[n - 1] && richiami[n - 1].includes(group)) {
+            cols[3].push(mapGroup(group))
           }
         }
       }

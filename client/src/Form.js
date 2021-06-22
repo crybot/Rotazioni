@@ -132,6 +132,7 @@ function Form(props) {
   const [openDialog, setOpenDialog] = useState(false)
   const [infeasible, setInfeasible] = useState(false)
   const [choices, setChoices] = useState([])
+  const [richiami, setRichiami] = useState([])
   const rest = useRef([])
   const selectedRow = useRef(null)
 
@@ -241,6 +242,7 @@ function Form(props) {
 
     let row = selectedRow.current - 1
     let newChoices = choices
+    let newRichiami = richiami
     selectedRow.current = null
 
     if (!value) {
@@ -251,10 +253,16 @@ function Form(props) {
       newChoices[row] = new Set()
     }
 
+    if (!newRichiami[row]) {
+      newRichiami[row] = new Set()
+    }
+
     if (value === 'rest') {
       rest.current[row] = true
       newChoices[row] = new Set()
       setChoices(newChoices)
+      newRichiami[row] = new Set()
+      setRichiami(newRichiami)
       setSplit(recomputeSplit(newChoices))
       return
     }
@@ -263,7 +271,17 @@ function Form(props) {
       rest.current[row] = false
       newChoices[row] = new Set()
       setChoices(newChoices)
+      newRichiami[row] = new Set()
+      setRichiami(newRichiami)
       setSplit(recomputeSplit(newChoices))
+      return
+    }
+
+    if (value.startsWith('richiamo_')) {
+      let newValue = mapGroupInv(value.split('_').pop()).toUpperCase()
+      rest.current[row] = false
+      newRichiami[row].add(newValue)
+      setRichiami(newRichiami)
       return
     }
 
@@ -402,6 +420,7 @@ function Form(props) {
           handleClick={handleRowClick}
           days={state.days}
           split={split}
+          richiami={richiami.map(e => Array.from(e))}
         />
       </div>
       <ReactToPrint
@@ -416,7 +435,7 @@ function Form(props) {
         content={() => componentRef.current}
       />
 
-      <ChoiceDialog items={groups.concat(['rest'])} onClose={handleCloseDialog} open={openDialog}>
+      <ChoiceDialog items={groups} onClose={handleCloseDialog} open={openDialog}>
       </ChoiceDialog>
       <Backdrop className={classes.backdrop} open={loading}>
         <CircularProgress color="secondary"/>
