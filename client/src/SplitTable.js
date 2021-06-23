@@ -1,5 +1,5 @@
 import {Grid, Paper, TableRow, Typography} from '@material-ui/core';
-import {useTheme} from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import InputTooltip from './InputTooltip'
 
 function weekday(n) {
@@ -32,12 +32,19 @@ function SplitCell(props) {
   );
 }
 
+const useStyles = makeStyles({
+  pointer: {
+    cursor: 'pointer'
+  },
+})
+
 function SplitRow(props) {
   const handleClick = () => {
     props.handleClick(props.row)
   }
   const cols = props.cols
   const n = props.row
+  const classes = useStyles()
 
   return (
     <InputTooltip
@@ -47,6 +54,7 @@ function SplitRow(props) {
       title="Clicca sulla riga selezionata per impostare un vincolo">
       <TableRow key={n.toString()}
         hover
+        className={classes.pointer}
         selected={props.selected}
         onClick={handleClick}>
         <td align="left"> 
