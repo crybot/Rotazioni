@@ -280,6 +280,9 @@ function Form(props) {
     if (value.startsWith('richiamo_')) {
       let newValue = mapGroupInv(value.split('_').pop()).toUpperCase()
       rest.current[row] = false
+      if (split && split[row].length === 0) {
+        setSplit(recomputeSplit(newChoices))
+      }
       newRichiami[row].add(newValue)
       setRichiami(newRichiami)
       return
