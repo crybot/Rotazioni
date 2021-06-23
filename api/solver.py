@@ -96,6 +96,12 @@ class SplitScheduler:
             if self.richiami[day] != None and len(self.richiami[day]) > 0:
                 model += self.Y[day] == 0
 
+        # For each day j, if muscle i is trained as a Richiamo, X_i_j must be 0
+        for day in range(0, len(self.richiami)):
+            if self.richiami[day] != None:
+                for group in self.richiami[day]:
+                    model += self.X[group, day] == 0
+    
         # Max consecutive days of training/resting constraints
         for day in self.days:
             maxwork = crange(day, (day + self.max_consecutive_work + 1), len(self.days), self.cyclic_split)
