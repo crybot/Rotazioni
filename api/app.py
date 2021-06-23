@@ -68,7 +68,7 @@ def solve_api():
     cyclic_split = args['cyclic_split'].lower() == 'true'
 
     choices = json.loads(args['choices'])
-    # choices = [[g for g in choice] for choice in choices]
+    richiami = json.loads(args['richiami'])
     print(choices)
     print(rest)
 
@@ -78,6 +78,7 @@ def solve_api():
             int(args['rest_days']),
             rest,
             choices,
+            richiami,
             int(args['max_consecutive_work']),
             int(args['max_consecutive_rest']),
             cyclic_split)

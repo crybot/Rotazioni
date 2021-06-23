@@ -198,6 +198,7 @@ function Form(props) {
     }
     form_data.append('rest', JSON.stringify(rest.current))
     form_data.append('choices', JSON.stringify(choices.map(e => Array.from(e))))
+    form_data.append('richiami', JSON.stringify(richiami.map(e => Array.from(e))))
 
     const requestOptions = {
       method: 'POST',
@@ -280,6 +281,9 @@ function Form(props) {
     if (value.startsWith('richiamo_')) {
       let newValue = mapGroupInv(value.split('_').pop()).toUpperCase()
       rest.current[row] = false
+      if (split && split[row].length === 0) {
+        setSplit(recomputeSplit(newChoices))
+      }
       newRichiami[row].add(newValue)
       setRichiami(newRichiami)
       return
