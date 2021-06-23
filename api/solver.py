@@ -34,13 +34,14 @@ class MuscleGroup:
         self.split_preference = set(preference)
 
 class SplitScheduler:
-    def __init__(self, groups, days, rest_days, rest=[], choices=[],
+    def __init__(self, groups, days, rest_days, rest=[], choices=[], richiami=[],
             max_consecutive_work=3, max_consecutive_rest=2, cyclic_split=True):
         self.groups = groups
         self.days = range(days)
         self.rest_days = rest_days
         self.rest = rest
         self.choices = choices
+        self.richiami = richiami
         self.max_consecutive_work = max_consecutive_work
         self.max_consecutive_rest = max_consecutive_rest
         self.cyclic_split = cyclic_split
@@ -83,11 +84,17 @@ class SplitScheduler:
                 model += self.Y[day] == 1
 
         # self.choices is such that we must enforce the constraints:
-        # choices[j] = i => X_i_j = 1
+        # choices[j] = [..., i, ...] => X_i_j = 1
         for day in range(0, len(self.choices)):
             if self.choices[day] != None:
                 for group_name in self.choices[day]:
                     model += self.X[group_name, day] == 1
+
+        # self.richiami is such that we must enforce the constraints:
+        # richiami[j] = [g_1, ..., g_n] => Y_j = 0
+        for day in range(0, len(self.richiami)):
+            if self.richiami[day] != None and len(self.richiami[day]) > 0:
+                model += self.Y[day] == 0
 
         # Max consecutive days of training/resting constraints
         for day in self.days:
@@ -99,12 +106,18 @@ class SplitScheduler:
         # For each day j, if self.Y_j is set to 1 (j is a rest day), there must be no workouts scheduled for that day
         # and if self.Y_j is set to 0, there has to be at least one muscle group scheduled for that day
         for day in self.days:
-            model += sum( [ self.X[group.name, day] for group in self.groups ] ) <= (1 - self.Y[day])*1000000
-            model += sum( [ self.X[group.name, day] for group in self.groups ] ) >= (1 - self.Y[day])
+            richiamo = 0
+            if self.richiami and day < len(self.richiami) and self.richiami[day] != None:
+                richiamo = len(self.richiami[day])
+            model += sum( [ self.X[group.name, day] for group in self.groups ] ) + richiamo <= (1 - self.Y[day])*1000000
+            model += sum( [ self.X[group.name, day] for group in self.groups ] ) + richiamo >= (1 - self.Y[day])
 
         # Threshold variable constraint (self.Z must represent the maximum number of muscle groups trained in any given day)
         for day in self.days:
-            model += sum( [ self.X[group.name, day] for group in self.groups ] ) <= self.Z
+            richiamo = 0
+            if self.richiami and day < len(self.richiami) and self.richiami[day] != None:
+                richiamo = len(self.richiami[day])
+            model += sum( [ self.X[group.name, day] for group in self.groups ] ) + richiamo <= self.Z
             
         # Constraints determining the minimum and maximum number of days between two consecutive muscle group workouts
         for group in self.groups:

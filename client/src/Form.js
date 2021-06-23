@@ -198,6 +198,7 @@ function Form(props) {
     }
     form_data.append('rest', JSON.stringify(rest.current))
     form_data.append('choices', JSON.stringify(choices.map(e => Array.from(e))))
+    form_data.append('richiami', JSON.stringify(richiami.map(e => Array.from(e))))
 
     const requestOptions = {
       method: 'POST',
