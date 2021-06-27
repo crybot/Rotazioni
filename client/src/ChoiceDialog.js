@@ -1,5 +1,5 @@
 import { Dialog, DialogTitle, List, ListItem} from '@material-ui/core';
-import { ListItemIcon, ListItemText, Typography } from '@material-ui/core';
+import { ListItemText, Typography } from '@material-ui/core';
 import { Divider, Box, Grid, Icon, IconButton } from '@material-ui/core';
 
 function GroupList(props) {

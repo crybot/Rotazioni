@@ -3,7 +3,6 @@ import { useState, useRef } from 'react';
 import { usePersistedState } from './persistence'
 import { Collapse, Typography, Backdrop, CircularProgress, Button } from '@material-ui/core';
 import { FormControlLabel, Checkbox, Icon, IconButton } from '@material-ui/core';
-import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import InputGroup, { IntegerField } from './InputGroup'
 import Alert from '@material-ui/lab/Alert';

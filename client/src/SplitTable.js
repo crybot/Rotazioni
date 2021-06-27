@@ -108,7 +108,7 @@ function SplitTable(props) {
   }
 
   return (
-    <Grid container spacing={0} justify="center" alignItem="center">
+    <Grid container spacing={0} justify="center" alignItems="center">
       <Grid item xs={11} md={8}>
         <Paper elevation={0} style={{width: '100%', marginTop: "6vh", marginBottom: "5vh"}}>
           <table>
