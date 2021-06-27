@@ -2,7 +2,7 @@ import './App.css';
 import { IconButton, Icon, Grid, CssBaseline, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { useState, useEffect } from 'react'
+import { usePersistedState } from './persistence'
 import Form from './Form'
 import Copyright from './Copyright'
 
@@ -34,16 +34,6 @@ var defaultTheme = {
       // InputLabelProps: {style: {fontSize: 15}}, // font size of input label
     },
   },
-}
-
-function usePersistedState(key, defaultValue) {
-  const [state, setState] = useState(
-    JSON.parse(localStorage.getItem(key)) || defaultValue
-  );
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state));
-  }, [key, state]);
-  return [state, setState];
 }
 
 

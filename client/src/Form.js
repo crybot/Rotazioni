@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useRef } from 'react';
+import { usePersistedState } from './persistence'
 import { Collapse, Typography, Backdrop, CircularProgress, Button } from '@material-ui/core';
 import { FormControlLabel, Checkbox, Icon, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +10,7 @@ import SplitTable from './SplitTable'
 import ChoiceDialog from './ChoiceDialog'
 import InputTooltip from './InputTooltip'
 import ReactToPrint from 'react-to-print';
+import './extensions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -122,18 +124,17 @@ function getGroup(state, group) {
 }
 
 
-
 function Form(props) {
   const classes = useStyles();
-  const [state, setState] = useState(defaultState)
+  const [state, setState] = usePersistedState('state', defaultState)
   const [errors, setErrors] = useState({})
-  const [split, setSplit] = useState(null)
+  const [split, setSplit] = usePersistedState('split', null)
   const [loading, setLoading] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [infeasible, setInfeasible] = useState(false)
-  const [choices, setChoices] = useState([])
-  const [richiami, setRichiami] = useState([])
-  const rest = useRef([])
+  const [choices, setChoices] = usePersistedState('choices', [])
+  const [richiami, setRichiami] = usePersistedState('richiami', [])
+  const [rest, setRest] = usePersistedState('rest', [])
   const selectedRow = useRef(null)
 
   function rotations(group, split) {
@@ -174,8 +175,6 @@ function Form(props) {
         : event.target.value),
       [refName] : refValue
     })
-
-    console.log(state)
   }
 
   // TODO: compare performance vs object destructuring (c.f. handleChange)
@@ -196,9 +195,9 @@ function Form(props) {
     for (const key in state ) {
       form_data.append(key, state[key]);
     }
-    form_data.append('rest', JSON.stringify(rest.current))
-    form_data.append('choices', JSON.stringify(choices.map(e => Array.from(e))))
-    form_data.append('richiami', JSON.stringify(richiami.map(e => Array.from(e))))
+    form_data.append('rest', JSON.stringify(rest))
+    form_data.append('choices', JSON.stringify(choices))
+    form_data.append('richiami', JSON.stringify(richiami))
 
     const requestOptions = {
       method: 'POST',
@@ -232,7 +231,7 @@ function Form(props) {
   function recomputeSplit(choices) {
     let newSplit = Array(state.days).fill([]);
     for (const day in choices) {
-      newSplit[day] = Array.from(choices[day])
+      newSplit[day] = choices[day]
     }
     return newSplit
   }
@@ -242,8 +241,10 @@ function Form(props) {
     setOpenDialog(false)
 
     let row = selectedRow.current - 1
-    let newChoices = choices
-    let newRichiami = richiami
+    // Need to copy arrays to trigger component re-render
+    let newChoices = [...choices]
+    let newRichiami = [...richiami]
+    let newRest = [...rest]
     selectedRow.current = null
 
     if (!value) {
@@ -251,28 +252,30 @@ function Form(props) {
     }
 
     if (!newChoices[row]) {
-      newChoices[row] = new Set()
+      newChoices[row] = []
     }
 
     if (!newRichiami[row]) {
-      newRichiami[row] = new Set()
+      newRichiami[row] = []
     }
 
     if (value === 'rest') {
-      rest.current[row] = true
-      newChoices[row] = new Set()
+      newRest[row] = true
+      setRest(newRest)
+      newChoices[row] = []
       setChoices(newChoices)
-      newRichiami[row] = new Set()
+      newRichiami[row] = []
       setRichiami(newRichiami)
       setSplit(recomputeSplit(newChoices))
       return
     }
 
     if (value === 'clear') {
-      rest.current[row] = false
-      newChoices[row] = new Set()
+      newRest[row] = false
+      setRest(newRest)
+      newChoices[row] = []
       setChoices(newChoices)
-      newRichiami[row] = new Set()
+      newRichiami[row] = []
       setRichiami(newRichiami)
       setSplit(recomputeSplit(newChoices))
       return
@@ -280,22 +283,25 @@ function Form(props) {
 
     if (value.startsWith('richiamo_')) {
       let newValue = mapGroupInv(value.split('_').pop()).toUpperCase()
-      rest.current[row] = false
+      newRest[row] = false
+      setRest(newRest)
       if (split && split[row].length === 0) {
         setSplit(recomputeSplit(newChoices))
       }
-      newRichiami[row].add(newValue)
+      newRichiami[row].pushIfNotPresent(newValue)
       setRichiami(newRichiami)
       return
     }
 
     let newValue = mapGroupInv(value).toUpperCase()
 
-    if (rotations(newValue, newChoices.map( e => Array.from(e) )) < 3) {
-      rest.current[row] = false
-      newChoices[row].add(newValue)
-      setSplit(recomputeSplit(newChoices))
+    if (rotations(newValue, newChoices) < 3) {
+      newRest[row] = false
+      setRest(newRest)
+      newChoices[row].pushIfNotPresent(newValue)
+      console.log(newChoices)
       setChoices(newChoices)
+      setSplit(recomputeSplit(newChoices))
     }
 
   }
@@ -420,11 +426,11 @@ function Form(props) {
       <div ref={componentRef}>
         <SplitTable
           selectedRow={selectedRow.current}
-          rest={rest.current}
+          rest={rest}
           handleClick={handleRowClick}
           days={state.days}
           split={split}
-          richiami={richiami.map(e => Array.from(e))}
+          richiami={richiami}
         />
       </div>
       <ReactToPrint
@@ -449,5 +455,4 @@ function Form(props) {
   );
 }
 
-// <div style={{width: 500, height: 500, background: 'red'}} onClick={toPdf} ref={targetRef}/>
 export default Form

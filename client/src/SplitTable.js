@@ -91,8 +91,6 @@ function SplitTable(props) {
         }
       }
       if (richiami != null && n <= richiami.length) {
-        console.log(richiami)
-        console.log(n-1)
         for (const group in groups) {
           if (richiami[n - 1] && richiami[n - 1].includes(group)) {
             cols[3].push(mapGroup(group))
