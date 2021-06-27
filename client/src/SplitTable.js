@@ -1,6 +1,7 @@
 import {Grid, Paper, TableRow, Typography} from '@material-ui/core';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import InputTooltip from './InputTooltip'
+import { mapGroup } from './groups'
 
 function weekday(n) {
   return {0: 'LUNEDÌ', 1: 'MARTEDÌ', 2: 'MERCOLEDÌ',                          
@@ -8,16 +9,6 @@ function weekday(n) {
     6: 'DOMENICA'}[(n-1) % 7]    
 }
 
-// TODO: export
-function mapGroup(group) {
-  return {
-    'chest': 'PETTO',
-    'back': 'SCHIENA',
-    'legs': 'GAMBE',
-    'arms': 'BRACCIA',
-    'delts': 'SPALLE'
-  }[group.toLowerCase()]
-}
 
 function SplitCell(props) {
   const theme = useTheme();
@@ -26,7 +17,7 @@ function SplitCell(props) {
   return (
     <td style={{backgroundColor: (props.rest ? theme.palette.secondary[color] : '')}}>
       <Typography variant="body1" align="center">
-        {props.groups.join(' & ')} 
+        {props.groups.map(g => g.toUpperCase()).join(' & ')} 
       </Typography>
     </td>
   );
@@ -84,7 +75,7 @@ function SplitTable(props) {
 
       if (split != null && n <= split.length) {
         for (const group in groups) {
-          if (split[n - 1].includes(group)) {
+          if (split[n-1] && split[n - 1].includes(group)) {
             cols[groups[group]].push(mapGroup(group))
             groups[group] += 1
           }
@@ -92,7 +83,7 @@ function SplitTable(props) {
       }
       if (richiami != null && n <= richiami.length) {
         for (const group in groups) {
-          if (richiami[n - 1] && richiami[n - 1].includes(group)) {
+          if (richiami[n-1] && richiami[n - 1] && richiami[n - 1].includes(group)) {
             cols[3].push(mapGroup(group))
           }
         }

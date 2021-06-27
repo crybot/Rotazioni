@@ -3,45 +3,16 @@ import { useState, useRef } from 'react';
 import { usePersistedState } from './persistence'
 import { Collapse, Typography, Backdrop, CircularProgress, Button } from '@material-ui/core';
 import { FormControlLabel, Checkbox, Icon, IconButton } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import InputGroup, { IntegerField } from './InputGroup'
 import Alert from '@material-ui/lab/Alert';
 import SplitTable from './SplitTable'
 import ChoiceDialog from './ChoiceDialog'
 import InputTooltip from './InputTooltip'
 import ReactToPrint from 'react-to-print';
+import { globalStyles } from './theme'
+import { mapGroupInv } from './groups'
 import './extensions'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '18ch',
-    },
-  },
-  button: {
-    color: theme.palette.secondary.main,
-    marginRight: "20px",
-    marginLeft: "20px",
-    width: "12%",
-    height: "8ch"
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-  },
-}));
-
-// TODO: export
-function mapGroupInv(group) {
-  return {
-    'petto': 'chest',
-    'schiena': 'back',
-    'gambe': 'legs',
-    'braccia': 'arms',
-    'spalle': 'delts'
-  }[group.toLowerCase()]
-}
 
 // TODO: global config files
 // const groups = ['chest', 'back', 'legs', 'arms', 'delts']
@@ -127,7 +98,7 @@ function getGroup(state, group) {
 
 
 function Form(props) {
-  const classes = useStyles();
+  const classes = globalStyles();
   const [state, setState] = usePersistedState('state', defaultState)
   const [errors, setErrors] = useState({})
   const [split, setSplit] = usePersistedState('split', null)
@@ -226,8 +197,8 @@ function Form(props) {
 
   const handleRowClick = (row, marked) => {
     // TODO: assert days > 0 
-    setOpenDialog(true)
     selectedRow.current = row
+    setOpenDialog(true)
   }
 
   function recomputeSplit(choices) {
@@ -238,7 +209,7 @@ function Form(props) {
     return newSplit
   }
 
-  const handleCloseDialog = (value) => {
+  const handleCloseDialog = (values) => {
     // TODO: assert days > 0 
     setOpenDialog(false)
 
@@ -249,7 +220,7 @@ function Form(props) {
     let newRest = [...rest]
     selectedRow.current = null
 
-    if (!value) {
+    if (!values) {
       return
     }
 
@@ -261,18 +232,9 @@ function Form(props) {
       newRichiami[row] = []
     }
 
-    if (value === 'rest') {
-      newRest[row] = true
-      setRest(newRest)
-      newChoices[row] = []
-      setChoices(newChoices)
-      newRichiami[row] = []
-      setRichiami(newRichiami)
-      setSplit(recomputeSplit(newChoices))
-      return
-    }
 
-    if (value === 'clear') {
+    /*
+    if (values === 'clear') {
       newRest[row] = false
       setRest(newRest)
       newChoices[row] = []
@@ -282,28 +244,41 @@ function Form(props) {
       setSplit(recomputeSplit(newChoices))
       return
     }
+    */
 
-    if (value.startsWith('richiamo_')) {
-      let newValue = mapGroupInv(value.split('_').pop()).toUpperCase()
-      newRest[row] = false
-      setRest(newRest)
-      if (split && split[row].length === 0) {
+    if (typeof values === 'object') {
+      if (values.rest) {
+        newRest[row] = true
+        setRest(newRest)
+        newChoices[row] = []
+        setChoices(newChoices)
+        newRichiami[row] = []
+        setRichiami(newRichiami)
         setSplit(recomputeSplit(newChoices))
+        return
       }
-      newRichiami[row].pushIfNotPresent(newValue)
-      setRichiami(newRichiami)
-      return
-    }
 
-    let newValue = mapGroupInv(value).toUpperCase()
-
-    if (rotations(newValue, newChoices) < 3) {
-      newRest[row] = false
+      let items = Object.keys(values.rotations).filter((k) => values.rotations[k])
+      newChoices[row] = []
+      for (const item of items) {
+        let newValue = mapGroupInv(item).toUpperCase()
+        if (rotations(newValue, newChoices) < 3) {
+          newRest[row] = false
+          newChoices[row].pushIfNotPresent(newValue)
+        }
+      }
+      let richiami = Object.keys(values.richiami).filter((k) => values.richiami[k])
+      newRichiami[row] = []
+      for (const item of richiami) {
+        let newValue = mapGroupInv(item).toUpperCase()
+        newRest[row] = false
+        newRichiami[row].pushIfNotPresent(newValue)
+        setRichiami(newRichiami)
+      }
       setRest(newRest)
-      newChoices[row].pushIfNotPresent(newValue)
-      console.log(newChoices)
       setChoices(newChoices)
       setSplit(recomputeSplit(newChoices))
+
     }
 
   }
@@ -460,7 +435,12 @@ function Form(props) {
         content={() => componentRef.current}
       />
 
-      <ChoiceDialog items={groups} onClose={handleCloseDialog} open={openDialog}>
+      <ChoiceDialog
+        rest={rest[selectedRow.current-1]}
+        selected={choices[selectedRow.current-1]}
+        items={groups}
+        onClose={handleCloseDialog}
+        open={openDialog}>
       </ChoiceDialog>
       <Backdrop className={classes.backdrop} open={loading}>
         <CircularProgress color="secondary"/>
