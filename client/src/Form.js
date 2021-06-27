@@ -440,6 +440,7 @@ function Form(props) {
       <ChoiceDialog
         rest={rest[selectedRow.current-1]}
         selected={choices[selectedRow.current-1]}
+        richiami={richiami[selectedRow.current-1]}
         items={groups}
         onClose={handleCloseDialog}
         open={openDialog}>
