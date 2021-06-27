@@ -405,12 +405,6 @@ function Form(props) {
           <strong>GENERA</strong>
         </Typography>
       </Button>
-      <Button
-        onClick={handleReset} align="left" variant="outlined" className={classes.button}>
-        <Typography>
-          <strong>RIPRISTINA</strong>
-        </Typography>
-      </Button>
       <br/>
 
       <div ref={componentRef}>
@@ -423,6 +417,14 @@ function Form(props) {
           richiami={richiami}
         />
       </div>
+
+      <Button
+        onClick={handleReset} variant="outlined" className={classes.button}>
+        <Typography>
+          <strong>RIPRISTINA</strong>
+        </Typography>
+      </Button>
+
       <ReactToPrint
         trigger={() => 
           <Button
