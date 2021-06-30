@@ -17,7 +17,7 @@ var defaultTheme = {
       main: '#c01f25', // shade of dark red
     },
     tertiary: {
-      main: '#388659',
+      main: '#48AD72',
       dark: '#30734C',
     },
     highlight: {
