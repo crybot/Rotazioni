@@ -15,7 +15,11 @@ function SplitCell(props) {
   const color = theme.palette.type === 'dark' ? 'dark' : 'main'
 
   return (
-    <td style={{backgroundColor: (props.rest ? theme.palette.secondary[color] : '')}}>
+    <td style={{backgroundColor: (
+      props.edited
+        ? theme.palette.tertiary[color]
+        : (props.rest ? theme.palette.secondary[color] : '')
+    )}}>
       <Typography variant="body1" align="center">
         {props.groups.map(g => g.toUpperCase()).join(' & ')} 
       </Typography>
@@ -53,10 +57,10 @@ function SplitRow(props) {
             {weekday(n)}
           </Typography>
         </td>
-        <SplitCell rest={props.rest} groups={cols[0]}/>
-        <SplitCell rest={props.rest} groups={cols[1]}/>
-        <SplitCell rest={props.rest} groups={cols[2]}/>
-        <SplitCell rest={props.rest} groups={cols[3]}/>
+        <SplitCell rest={props.rest} edited={props.edited} groups={cols[0]}/>
+        <SplitCell rest={props.rest} edited={props.edited} groups={cols[1]}/>
+        <SplitCell rest={props.rest} edited={props.edited} groups={cols[2]}/>
+        <SplitCell rest={props.rest} edited={props.edited} groups={cols[3]}/>
       </TableRow>
     </InputTooltip>
   );
@@ -88,10 +92,14 @@ function SplitTable(props) {
           }
         }
       }
+      var edited = false
+      edited |= props.choices && props.choices[n - 1] && props.choices[n - 1].length > 0
+      edited |= props.richiami && props.richiami[n - 1] && props.richiami[n - 1].length > 0
       return (<SplitRow
         key={n.toString()}
         selected={props.selectedRow === n}
         rest={props.rest ? props.rest[n - 1] : false}
+        edited={edited}
         handleClick={props.handleClick}
         row={n}
         cols={cols}/>);

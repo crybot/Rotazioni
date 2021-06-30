@@ -414,6 +414,7 @@ function Form(props) {
           handleClick={handleRowClick}
           days={state.days}
           split={split}
+          choices={choices}
           richiami={richiami}
         />
       </div>

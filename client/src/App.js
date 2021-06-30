@@ -16,6 +16,14 @@ var defaultTheme = {
     secondary: {
       main: '#c01f25', // shade of dark red
     },
+    tertiary: {
+      main: '#388659',
+      dark: '#30734C',
+    },
+    highlight: {
+      main: '#E98A15',
+      dark: '#E08515',
+    }
   },
   overrides: {
     MuiCheckbox: {
