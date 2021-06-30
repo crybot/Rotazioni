@@ -273,11 +273,11 @@ function Form(props) {
         let newValue = mapGroupInv(item).toUpperCase()
         newRest[row] = false
         newRichiami[row].pushIfNotPresent(newValue)
-        setRichiami(newRichiami)
       }
       setRest(newRest)
       setChoices(newChoices)
       setSplit(recomputeSplit(newChoices))
+      setRichiami(newRichiami)
 
     }
 
