@@ -13,6 +13,9 @@ var defaultTheme = {
     ].join(','),
   },
   palette: {
+    primary: {
+      main: '#067BC2',
+    },
     secondary: {
       main: '#c01f25', // shade of dark red
     },
