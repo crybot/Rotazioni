@@ -1,2 +1,2 @@
-export REACT_APP_FLASK_IP='https://rotazioni.ns0.it/solve'
+export REACT_APP_FLASK_IP='https://rotazioni.fracta.dev/solve'
 npm run build
